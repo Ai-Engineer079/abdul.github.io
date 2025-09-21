@@ -2,7 +2,7 @@ Portfolio (Static HTML/CSS/JS)
 
 Overview
 
-- Clean, responsive portfolio similar in structure/feel to robinrathore.xyz
+- Clean, responsive portfolio similar in structure/feel 
 - No build step required; edit one config and you’re done
 - Dark/light theme, smooth scroll, scroll‑spy, and small animations
 

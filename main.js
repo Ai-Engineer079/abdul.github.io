@@ -166,14 +166,34 @@
     window.addEventListener('mouseenter', () => cursor.classList.remove('hide'));
     window.addEventListener('mousedown', () => cursor.classList.add('down'));
     window.addEventListener('mouseup', () => cursor.classList.remove('down'));
-    // Hover state for interactive elements
+    // Hover state for interactive elements + text
     const interactiveSel = 'a, button, .btn, .social-link, .project-card';
+    const textSel = 'p, h1, h2, h3, h4, h5, h6, li, .project-desc, .section-title, .headline, .subhead, .project-title, .skill';
     document.addEventListener('mouseover', (e) => {
       if (e.target.closest(interactiveSel)) cursor.classList.add('link');
+      if (e.target.closest(textSel)) cursor.classList.add('text');
     });
     document.addEventListener('mouseout', (e) => {
       if (e.target.closest(interactiveSel)) cursor.classList.remove('link');
+      if (e.target.closest(textSel)) cursor.classList.remove('text');
     });
+
+    // Hide custom cursor when focusing text fields
+    document.addEventListener('focusin', (e) => {
+      if (e.target.matches('input, textarea, [contenteditable="true"]')) cursor.classList.add('hide');
+    });
+    document.addEventListener('focusout', (e) => {
+      if (e.target.matches('input, textarea, [contenteditable="true"]')) cursor.classList.remove('hide');
+    });
+
+    // Selection feedback
+    const onSel = () => {
+      const sel = window.getSelection?.();
+      if (!sel) return;
+      const selecting = sel.rangeCount > 0 && !sel.isCollapsed;
+      cursor.classList.toggle('selecting', selecting);
+    };
+    document.addEventListener('selectionchange', onSel);
   }
 
   // ==== Magnetic buttons =====
@@ -214,10 +234,15 @@
       $$('.project-card', grid).forEach((c) => {
         if (!c._tiltAttached) { addTilt(c); c._tiltAttached = true; }
       });
+      // Animate any newly added project titles
+      $$('.project-title', grid).forEach((t) => {
+        if (!t.dataset.animated) splitText(t, 'words');
+      });
     });
     tiltObserver.observe(grid, { childList: true });
     // If already there
     $$('.project-card', grid).forEach((c) => { if (!c._tiltAttached) { addTilt(c); c._tiltAttached = true; } });
+    $$('.project-title', grid).forEach((t) => { if (!t.dataset.animated) splitText(t, 'words'); });
   }
 
   // ==== Hero parallax for orbs =====
@@ -237,4 +262,59 @@
       orbs.forEach(o => { o.style.transform = 'translate(0,0)'; });
     });
   }
+
+  // ==== VIP text animations (letters/words) =====
+  function splitText(el, mode = 'letters'){
+    if (!el || el.dataset.animated) return;
+    const text = el.textContent || '';
+    el.textContent = '';
+    el.classList.add('reveal-text');
+    const frag = document.createDocumentFragment();
+    let i = 0;
+    if (mode === 'words'){
+      const parts = text.split(/(\s+)/);
+      parts.forEach(part => {
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = part;
+        span.style.transitionDelay = `${i * 35}ms`;
+        i++;
+        frag.appendChild(span);
+      });
+    } else {
+      Array.from(text).forEach(ch => {
+        const span = document.createElement('span');
+        span.className = 'char';
+        if (ch === ' ') { span.innerHTML = '&nbsp;'; }
+        else { span.textContent = ch; }
+        span.style.transitionDelay = `${i * 18}ms`;
+        i++;
+        frag.appendChild(span);
+      });
+    }
+    el.appendChild(frag);
+    el.dataset.animated = 'true';
+    return el;
+  }
+
+  function setupTextAnimations(){
+    const h1 = $('#headline');
+    if (h1 && !h1.dataset.animated) splitText(h1, 'letters');
+    $$('.section-title').forEach(el => { if (!el.dataset.animated) splitText(el, 'words'); });
+    $$('.project-title').forEach(el => { if (!el.dataset.animated) splitText(el, 'words'); });
+    // Observe and play when visible
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('play');
+          if (entry.target.classList.contains('vip-underline')) entry.target.classList.add('play');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '-10% 0px -10% 0px', threshold: 0.2 });
+    [h1, ...$$('.section-title'), ...$$('.project-title')].filter(Boolean).forEach(el => obs.observe(el));
+  }
+
+  setupTextAnimations();
 })();

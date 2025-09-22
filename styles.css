@@ -28,6 +28,7 @@ p,h1,h2,h3,h4,h5,h6{overflow-wrap:break-word}
   --dur: .45s;
   --dur-slow: 1.6s;
   --icon-filter: invert(100%) brightness(200%);
+  --shimmer-dur: 1.4s;
 }
 
 [data-theme="light"]{
@@ -48,16 +49,17 @@ body{
 .container{max-width:var(--container);padding:0 24px;margin:0 auto}
 
 /* ===== Header ===== */
-.site-header{position:sticky;top:0;z-index:50;background:linear-gradient(to bottom, rgba(11,11,15,.9), rgba(11,11,15,.4) 50%, transparent)}
-.header-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
-.brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:600}
+.site-header{position:sticky;top:10px;z-index:50;padding:8px 0;background:linear-gradient(180deg, rgba(11,11,15,.75), rgba(11,11,15,.4) 60%, transparent 100%);backdrop-filter:saturate(140%) blur(6px)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:56px;border:1px solid var(--border);border-radius:14px;background:rgba(17,17,25,.6);padding:0 12px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:600;white-space:nowrap}
+.brand-text{font-size:14px;letter-spacing:.2px;opacity:.95}
 .brand-mark{color:var(--primary)}
-.nav{display:flex;gap:18px}
-.nav-link{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:8px;transition:color .2s, background .2s}
+.nav{display:flex;gap:14px}
+.nav-link{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:10px;transition:color .2s, background .2s;font-size:14px}
 .nav-link:hover,.nav-link.active{color:var(--text);background:rgba(255,255,255,.04)}
-.header-actions{display:flex;gap:10px;align-items:center}
-.icon-btn{background:transparent;border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:600;transition:transform .05s ease, background .2s, color .2s,border-color .2s}
+.header-actions{display:flex;gap:8px;align-items:center}
+.icon-btn{background:transparent;border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:10px;cursor:pointer;font-size:13px;opacity:.9}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:12px;text-decoration:none;font-weight:600;transition:transform .05s ease, background .2s, color .2s,border-color .2s;font-size:14px}
 .btn:active{transform:translateY(1px)}
 .btn-primary{background:var(--primary);color:white}
 .btn-primary:hover{background:var(--primary-600)}
@@ -170,6 +172,22 @@ body{
 
 @keyframes marquee-ltr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 
+/* ===== Recommendations Marquee ===== */
+.recs-marquee{overflow:hidden;border:1px solid var(--border);border-radius:14px;background:var(--card);padding:12px}
+.recs-track{display:flex;gap:16px;align-items:stretch;will-change:transform;animation:recs-ltr 50s linear infinite}
+.recs-marquee:hover .recs-track{animation-play-state:paused}
+.rec-card{min-width:320px;max-width:360px;border:1px solid var(--border);border-radius:16px;background:var(--bg-elev);padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.rec-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.rec-left{display:flex;align-items:center;gap:12px}
+.rec-avatar{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--bg-elev);object-fit:cover}
+.rec-meta{display:flex;flex-direction:column}
+.rec-meta strong{font-weight:600}
+.rec-meta span{color:var(--muted);font-size:12px}
+.rec-right-logo img{width:28px;height:28px;object-fit:contain;filter:var(--icon-filter)}
+.stars{color:#ffd700;letter-spacing:1px;font-size:14px}
+.rec-text{color:var(--text);opacity:.92}
+@keyframes recs-ltr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+
 /* Custom cursor */
 .cursor{position:fixed;left:0;top:0;width:20px;height:20px;border:2px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1000;opacity:.85;transition:width var(--dur-fast), height var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast), transform .06s, box-shadow var(--dur-fast) var(--ease), backdrop-filter var(--dur-fast) var(--ease)}
 .cursor.link{width:36px;height:36px;border-color:var(--primary);background:rgba(124,92,255,.18)}
@@ -182,9 +200,11 @@ input,textarea{cursor:text!important}
 .has-custom-cursor a,.has-custom-cursor button,.has-custom-cursor .btn,.has-custom-cursor .social-link{cursor:none}
 
 /* VIP text effects */
-.vip-shimmer:hover{background:linear-gradient(90deg,var(--text),#fff,var(--accent),var(--text));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2.2s var(--ease) both}
-/* Ensure gradient applies when headline is split into spans */
-.vip-shimmer:hover .char{-webkit-background-clip:text;background-clip:text;color:transparent;background:linear-gradient(90deg,var(--text),#fff,var(--accent),var(--text));background-size:300% 100%}
+.vip-shimmer:hover{background-image:linear-gradient(90deg,var(--text),#fff,var(--accent),var(--text));background-size:300% 100%;animation:shimmer var(--shimmer-dur, 1.4s) var(--ease) both}
+/* Ensure gradient applies across whole line, not per-letter stripes */
+.vip-shimmer:hover .char{background:inherit;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.vip-shimmer.shimmer-off:hover{background:none;color:inherit;-webkit-text-fill-color:inherit}
+.vip-shimmer.shimmer-off:hover .char{background:none;color:inherit;-webkit-text-fill-color:inherit}
 .vip-underline{position:relative}
 .vip-underline::after{content:"";position:absolute;left:0;bottom:-8px;height:2px;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .7s var(--ease)}
 .vip-underline.play::after{width:84px}
@@ -200,7 +220,7 @@ input,textarea{cursor:text!important}
   .projects-grid{grid-template-columns:1fr 1fr}
 }
 @media (max-width: 640px){
-  .header-inner{height:72px}
+  .header-inner{height:52px}
   .nav{display:none}
   .projects-grid{grid-template-columns:1fr}
   .timeline-logo{width:56px;height:56px;padding:8px}

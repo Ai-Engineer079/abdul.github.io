@@ -152,6 +152,36 @@ about:
     { image: "assets/certificates/Screenshot 2025-09-22 161825.png", url: "#", alt: "Certificate" },
     { image: "assets/certificates/Screenshot 2025-09-22 161946.png", url: "https://www.hackerrank.com/certificates/iframe/bc68ae6df390", alt: "Certificate" }
   ],
+  recommendations: [
+    {
+      name: "Jane Doe",
+      title: "Product Manager",
+      company: "TechCorp",
+      avatar: "assets/images/avatar.svg",
+      logo: "assets/images/xflowLogo.svg",
+      rating: 5,
+      text: "Abdul consistently delivers reliable, high‑quality AI features with clear communication and strong ownership."
+    },
+    {
+      name: "John Smith",
+      title: "CTO",
+      company: "DataWorks",
+      avatar: "assets/images/avatar.svg",
+      logo: "assets/images/ambileLogo.svg",
+      rating: 5,
+      text: "His RAG systems and LLM fine‑tuning significantly improved accuracy and time‑to‑value for our teams."
+    },
+    {
+      name: "Aisha Khan",
+      title: "Lead Engineer",
+      company: "CloudScale",
+      avatar: "assets/images/avatar.svg",
+      logo: "assets/images/muetLogo.svg",
+      rating: 5,
+      text: "Strong engineering rigor and pragmatic approach. Abdul is a go‑to for production ML pipelines."
+    }
+  ],
+  effects: { shimmerHover: true, shimmerDuration: 1.2 },
   skills: [
     "Python",
     "Supervised Learning","Unsupervised Learning","Classification","Regression","Clustering","Anomaly Detection",

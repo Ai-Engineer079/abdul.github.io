@@ -242,6 +242,32 @@
     }).join('');
   }
 
+  // Recommendations marquee
+  const recTrack = document.getElementById('recsTrack');
+  if (recTrack && Array.isArray(C.recommendations)) {
+    const makeStars = (n) => {
+      const count = Math.max(0, Math.min(5, Math.round(n || 0)));
+      return `<span class="stars">${'★'.repeat(count)}${'☆'.repeat(5-count)}</span>`;
+    };
+    const cards = (arr) => arr.map(r => `
+      <article class="rec-card">
+        <div class="rec-head">
+          <div class="rec-left">
+            <img class="rec-avatar" src="${r.avatar || 'assets/images/avatar.svg'}" alt="${r.name || 'Reviewer'}" loading="lazy" />
+            <div class="rec-meta">
+              <strong>${r.name || 'Anonymous'}</strong>
+              <span>${r.title || ''}${r.company ? ' @ ' + r.company : ''}</span>
+              ${makeStars(r.rating)}
+            </div>
+          </div>
+          ${r.logo ? `<span class="rec-right-logo"><img src="${r.logo}" alt="${r.company || ''} logo" /></span>` : ''}
+        </div>
+        <p class="rec-text">${r.text || 'Great collaboration and impressive problem solving.'}</p>
+      </article>`).join('');
+    const doubled = [...C.recommendations, ...C.recommendations];
+    recTrack.innerHTML = cards(doubled);
+  }
+
   // Highlights (hero)
   const heroHL = $('#heroHighlights');
   if (Array.isArray(C.highlights) && heroHL) {
@@ -269,7 +295,7 @@
   }
 
   // Scroll spy + smooth scroll
-  const sections = ['about','education','experience','projects','skills','certifications','certificates','contact'].map(id => ({id, el: document.getElementById(id)}));
+  const sections = ['about','education','experience','projects','skills','certifications','certificates','recommendations','contact'].map(id => ({id, el: document.getElementById(id)}));
   const navLinks = $$('.nav-link');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -314,6 +340,16 @@
   (function setupTextAnimations(){
     const h1 = $('#headline');
     splitText(h1);
+    // Shimmer config
+    if (h1) {
+      const FX = (C.effects || {});
+      if (typeof FX.shimmerDuration === 'number' || typeof FX.shimmerDuration === 'string') {
+        h1.style.setProperty('--shimmer-dur', String(FX.shimmerDuration) + (String(FX.shimmerDuration).endsWith('s') ? '' : 's'));
+      }
+      if (FX.shimmerHover === false) {
+        h1.classList.add('shimmer-off');
+      }
+    }
     $$('.section-title').forEach(splitText);
     const obs2 = new IntersectionObserver((entries) => {
       entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('play'); obs2.unobserve(entry.target); } });

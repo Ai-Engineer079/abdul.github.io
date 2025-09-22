@@ -16,27 +16,29 @@ window.SITE_CONFIG = {
   ],
 about:
   "I am an AI Engineer specializing in Advanced NLP and Generative AI, with expertise in deploying and fine-tuning open source Large Language Models (LLMs) like llama 3.1 8b, Holding a B.E. in Computer Systems Engineering from Mehran University, I have a strong foundation in AI, machine learning, and software development, driving impactful AI solutions across industries." +
-  "\nCore Expertise:\n" +
-  "NLP & Generative AI: Expertise in deploying LLMs, RAG-based chatbots, and fine-tuning open-source models to build intelligent conversational systems and data-driven solutions.\n" +
-  "Automation & Workflows: Experienced in integrating AI with N8N to streamline automation and enhance system efficiency.\n" +
-  "AI Solutions: Proven track record in AI-powered chatbots, document analysis, and text-to-image platforms using LangChain, Gradio, and OpenAI APIs.\n" +
-  "Current Role: AI Engineer at Bluescarf.ai – Focused on developing scalable AI solutions, including RAG chatbots, automation systems, and custom model fine-tuning for client-specific applications.\n" +
-  "Technical Skills: Deep Learning: Proficient in CNNs, RNNs, and Transformers. Frameworks: TensorFlow, PyTorch, LangChain, Pinecone, Chroma. MLOps & Deployment: Skilled in Docker, Azure, and CI/CD pipelines.\n" +
+  " Core Expertise:" +
+  "NLP & Generative AI: Expertise in deploying LLMs, RAG-based chatbots, and fine-tuning open-source models to build intelligent conversational systems and data-driven solutions." +
+  "Automation & Workflows: Experienced in integrating AI with N8N to streamline automation and enhance system efficiency." +
+  "AI Solutions: Proven track record in AI-powered chatbots, document analysis, and text-to-image platforms using LangChain, Gradio, and OpenAI APIs." +
+  "Current Role: AI Engineer at Bluescarf.ai – Focused on developing scalable AI solutions, including RAG chatbots, automation systems, and custom model fine-tuning for client-specific applications." +
+  "Technical Skills: Deep Learning: Proficient in CNNs, RNNs, and Transformers. Frameworks: TensorFlow, PyTorch, LangChain, Pinecone, Chroma. MLOps & Deployment: Skilled in Docker, Azure, and CI/CD pipelines." +
   "Let’s connect to explore how AI can transform your business and create innovative solutions.",
 
   quickFacts: [
     { label: "Location", value: "Karachi, Sindh, Pakistan" },
     { label: "Phone", value: "+92-311-0351773" },
-    { label: "Education", value: "B.E. Computer Systems Engineering (2020–2024)" },
+    { label: "Education", value: "B.E. Computer Systems Engineering" },
     { label: "Focus", value: "Code + No Code Solutions, Gen AI, Agentic AI, N8N" },
     { label: "Availability", value: "Open to opportunities" },
-    { label: "Certifications", value: "Intro to Python ( DataCamp, HackerRank ), Foundations of Data Science ( Google/Coursera ), AI Agents Fundamentals ( Hugging Face )" }
+    { label: "Certifications", value: "DataCamp, HackerRank, Coursera & Hugging Face" }
   ],
   education: [
     {
       period: "2020 – 2024",
       institution: "Mehran University of Engineering & Technology (MUET), Jamshoro, Pakistan",
-      degree: "B.E., Computer Systems Engineering"
+      degree: "B.E., Computer Systems Engineering",
+      logo: "assets/images/muetLogo.svg",
+      url: "https://www.muet.edu.pk"
     }
   ],
   certifications: [
@@ -49,6 +51,8 @@ about:
       period: "May 2025 – Present",
       company: "X Flow Software Technology LLC (Bluescarf AI)",
       title: "AI Engineer",
+      logo: "assets/images/xflowLogo.svg",
+      url: "https://xflowresearch.com",
       summary:
         "End-to-end ownership of LLM fine-tuning, RAG platform work, and ML pipeline reliability in production.",
       bullets: [
@@ -63,6 +67,8 @@ about:
       period: "2024 – 2025",
       company: "Abdul Majid Bhurgri Institute of Language Engineering (AMBILE)",
       title: "AI/NLP Engineer",
+      logo: "assets/images/ambileLogo.svg",
+      url: "https://ambile.pk",
       summary:
         "Under Culture, Tourism, Antiquities & Archives Department, Govt. of Sindh; delivered Sindhi language AI projects.",
       bullets: [

@@ -140,15 +140,25 @@
 
   // Education
   const eduList = $('#educationList');
+  const defaultEduLogo = (ed) => {
+    const inst = (ed.institution || '').toLowerCase();
+    if (inst.includes('muet') || inst.includes('mehran university')) return 'assets/images/muetLogo.svg';
+    return null;
+  };
   if (Array.isArray(C.education) && eduList) {
     eduList.innerHTML = '';
     C.education.forEach((ed) => {
       const li = document.createElement('li');
       li.className = 'timeline-item fade-in';
+      const _eduLogo = ed.logo || defaultEduLogo(ed);
+      const _eduUrl = (ed.url && ed.url !== '#') ? ed.url : null;
       li.innerHTML = `
         <div class="timeline-time">${ed.period || ''}</div>
         <div class="timeline-card">
-          <h3>${ed.degree || ''}</h3>
+          <div class="timeline-card-head">
+            <h3>${ed.degree || ''}</h3>
+            ${_eduLogo ? (_eduUrl ? `<a class="timeline-logo" href="${_eduUrl}" target="_blank" rel="noopener" title="${ed.institution || ''}"><img src="${_eduLogo}" alt="${ed.institution || ''} logo" loading="lazy" /></a>` : `<span class="timeline-logo" title="${ed.institution || ''}"><img src="${_eduLogo}" alt="${ed.institution || ''} logo" loading="lazy" /></span>`) : ''}
+          </div>
           <p>${ed.institution || ''}</p>
         </div>`;
       eduList.appendChild(li);
@@ -162,10 +172,15 @@
     C.experience.forEach((e) => {
       const li = document.createElement('li');
       li.className = 'timeline-item fade-in';
+      const _expLogo = e.logo || ((e.company || '').toLowerCase().includes('x flow') || (e.company || '').toLowerCase().includes('bluescarf') ? 'assets/images/xflowLogo.svg' : ((e.company || '').toLowerCase().includes('ambile') || (e.company || '').toLowerCase().includes('bhurgri') ? 'assets/images/ambileLogo.svg' : null));
+      const _expUrl = (e.url && e.url !== '#') ? e.url : null;
       li.innerHTML = `
         <div class="timeline-time">${e.period || ''}</div>
         <div class="timeline-card">
-          <h3>${e.title || ''} @ ${e.company || ''}</h3>
+          <div class="timeline-card-head">
+            <h3>${e.title || ''} @ ${e.company || ''}</h3>
+            ${_expLogo ? (_expUrl ? `<a class="timeline-logo" href="${_expUrl}" target="_blank" rel="noopener" title="${e.company || ''}"><img src="${_expLogo}" alt="${e.company || ''} logo" loading="lazy" /></a>` : `<span class="timeline-logo" title="${e.company || ''}"><img src="${_expLogo}" alt="${e.company || ''} logo" loading="lazy" /></span>`) : ''}
+          </div>
           <p>${e.summary || ''}</p>
           ${Array.isArray(e.tech) ? `<div class="chips">${e.tech.map(t => `<span class="chip">${iconSpan(t, 'chip-icon')}${t}</span>`).join('')}</div>` : ''}
           ${Array.isArray(e.bullets) ? `<ul class="bullets">${e.bullets.map(b => `<li>${b}</li>`).join('')}</ul>` : ''}
@@ -308,4 +323,38 @@
 
   // Colorize icons after content is in DOM
   loadAllIcons();
+
+  // ==== Custom cursor (desktop) ====
+  const enableCustomCursor = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  const cursor = document.getElementById('cursor');
+  if (enableCustomCursor && cursor) {
+    document.body.classList.add('has-custom-cursor');
+    let rafId = null;
+    let curX = 0, curY = 0;
+    let targetX = 0, targetY = 0;
+    const move = (e) => { targetX = e.clientX; targetY = e.clientY; if (!rafId) raf(); };
+    const raf = () => {
+      curX += (targetX - curX) * 0.22;
+      curY += (targetY - curY) * 0.22;
+      cursor.style.left = curX + 'px';
+      cursor.style.top = curY + 'px';
+      rafId = Math.hypot(targetX - curX, targetY - curY) < 0.1 ? null : requestAnimationFrame(raf);
+    };
+    window.addEventListener('mousemove', move, { passive: true });
+    window.addEventListener('mouseleave', () => cursor.classList.add('hide'));
+    window.addEventListener('mouseenter', () => cursor.classList.remove('hide'));
+    window.addEventListener('mousedown', () => cursor.classList.add('down'));
+    window.addEventListener('mouseup', () => cursor.classList.remove('down'));
+    // Hover state for interactive elements + text
+    const interactiveSel = 'a, button, .btn, .social-link, .project-card, .timeline-logo';
+    const textSel = 'p, h1, h2, h3, h4, h5, h6, li, .project-desc, .section-title, .headline, .subhead, .project-title, .skill';
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest(interactiveSel)) cursor.classList.add('link');
+      if (e.target.closest(textSel)) cursor.classList.add('text');
+    });
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest(interactiveSel)) cursor.classList.remove('link');
+      if (e.target.closest(textSel)) cursor.classList.remove('text');
+    });
+  }
 })();

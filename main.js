@@ -1,24 +1,71 @@
 (() => {
   const C = window.SITE_CONFIG || {};
 
-  // Basic content wiring
   const $ = (s, p = document) => p.querySelector(s);
   const $$ = (s, p = document) => Array.from(p.querySelectorAll(s));
 
-  // Title/brand
-  document.title = `${C.name || 'Your Name'} — Portfolio`;
-  $('#brandName').textContent = C.name || 'Your Name';
-  $('#role').textContent = C.role || 'Full Stack & AI Engineer';
-  $('#footerName').firstChild && ($('#footerName').firstChild.textContent = `© `);
-  $('#year').textContent = new Date().getFullYear();
-  $('#resumeLink').href = C.resumeUrl || '#';
+  // === Simple Icons helpers ===
+  const ICON_CDN = (slug) => `https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${slug}.svg`;
+  const ICON_SLUGS = {
+    // ML / Data / Python stack
+    'python':'python','pytorch':'pytorch','tensorflow':'tensorflow','numpy':'numpy','pandas':'pandas',
+    'scikit-learn':'scikitlearn','opencv':'opencv','mlflow':'mlflow','databricks':'databricks',
+    'apache spark':'apachespark','spark':'apachespark','jupyter':'jupyter','google colab':'googlecolab',
+    // Web / backend
+    'fastapi':'fastapi','flask':'flask','streamlit':'streamlit','gradio':'gradio',
+    'docker':'docker','git':'git','github':'github','gitlab':'gitlab','github actions':'githubactions',
+    'postgresql':'postgresql','mysql':'mysql','redis':'redis','prisma':'prisma','trpc':'trpc',
+    'react':'react','next.js':'nextdotjs','nextjs':'nextdotjs','node.js':'nodejs','nodejs':'nodejs',
+    'typescript':'typescript','javascript':'javascript','visual studio code':'visualstudiocode','vs code':'visualstudiocode',
+    // Cloud / vendors / learning
+    'amazon web services':'amazonaws','aws':'amazonaws','microsoft azure':'microsoftazure','azure':'microsoftazure',
+    'google':'google','coursera':'coursera','datacamp':'datacamp','hackerrank':'hackerrank',
+    // AI brands / LLMs
+    'openai':'openai','openai apis':'openai','gpt-4':'openai','gpt-3.5/4':'openai','gpt':'openai','openai gym':'openaigym',
+    'anthropic':'anthropic','claude':'anthropic','mistral ai':'mistralai','mistral':'mistralai',
+    'hugging face':'huggingface','langchain':'langchain','gemini':'googlegemini','google gemini':'googlegemini',
+    // Vector DBs (available)
+    'milvus':'milvus',
+    // Socials
+    'linkedin':'linkedin','kaggle':'kaggle','microsoft':'microsoft','microsoft learn':'microsoft'
+  };
+  const toSlug = (name = '') => {
+    const n = String(name).trim().toLowerCase();
+    if (ICON_SLUGS[n]) return ICON_SLUGS[n];
+    const norm = n
+      .replace(/\s*\+\s*/g, 'plus')
+      .replace(/[\.\u00B7\/]/g,'')
+      .replace(/\s+/g,'');
+    if (ICON_SLUGS[norm]) return ICON_SLUGS[norm];
+    return null;
+  };
+  const iconImg = (name, extraClass = '') => {
+    const slug = toSlug(name);
+    if (!slug) return '';
+    const url = ICON_CDN(slug);
+    return `<img class="icon-img ${extraClass}" src="${url}" alt="${name} icon" loading="lazy" />`;
+  };
 
-  // About
-  $('#aboutText').textContent = C.about || $('#aboutText').textContent;
-  $('#location').textContent = C.location || 'Remote';
-  $('#availability').textContent = C.availability || 'Open to opportunities';
+  // Title, brand, footer
+  document.title = `${C.name || 'Your Name'} - ${C.role || 'AI Engineer'}`;
+  const brandName = $('#brandName');
+  if (brandName) brandName.textContent = C.name || 'Your Name';
+  const role = $('#role');
+  if (role) role.textContent = C.role || 'AI Engineer';
+  const footerName = $('#footerName');
+  if (footerName) footerName.innerHTML = `(c) <span id="year"></span> ${C.name || 'Your Name'}`;
+  const year = $('#year');
+  if (year) year.textContent = new Date().getFullYear();
+  const resumeLink = $('#resumeLink');
+  if (resumeLink) resumeLink.href = C.resumeUrl || '#';
 
-  // Quick facts
+  // About + quick facts
+  const aboutText = $('#aboutText');
+  if (aboutText) aboutText.textContent = C.about || aboutText.textContent || '';
+  const location = $('#location');
+  if (location) location.textContent = C.location || 'Remote';
+  const availability = $('#availability');
+  if (availability) availability.textContent = C.availability || 'Open to opportunities';
   const qf = $('#quickFacts');
   if (Array.isArray(C.quickFacts) && qf) {
     qf.innerHTML = '';
@@ -29,29 +76,49 @@
     });
   }
 
-  // Social links
+  // Socials
   const socials = $('#socialLinks');
-  if (Array.isArray(C.socials)) {
+  if (Array.isArray(C.socials) && socials) {
     socials.innerHTML = C.socials
-      .map(s => `<a class="social-link" href="${s.url}" target="_blank" rel="noopener">${s.icon || '🔗'} <span>${s.name}</span></a>`)
+      .map(s => {
+        const icon = iconImg(s.name, 'social-icon');
+        return `<a class="social-link" href="${s.url}" target="_blank" rel="noopener">${icon || ''}<span>${s.name}</span></a>`;
+      })
       .join('');
   }
 
-  // Email handling
+  // Email
   const email = C.email || 'you@example.com';
   const emailLink = $('#emailLink');
   const copyEmailBtn = $('#copyEmail');
   const emailCta = $('#emailCta');
   if (emailLink) emailLink.href = `mailto:${email}`;
+  if (emailCta) emailCta.href = `mailto:${email}`;
   if (copyEmailBtn) {
     copyEmailBtn.dataset.email = email;
     copyEmailBtn.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(email); copyEmailBtn.textContent = 'Copied! ✅'; }
+      try { await navigator.clipboard.writeText(email); copyEmailBtn.textContent = 'Copied!'; }
       catch { copyEmailBtn.textContent = email; }
       setTimeout(() => (copyEmailBtn.textContent = 'Copy Email'), 1500);
     });
   }
-  if (emailCta) emailCta.href = `mailto:${email}`;
+
+  // Education
+  const eduList = $('#educationList');
+  if (Array.isArray(C.education) && eduList) {
+    eduList.innerHTML = '';
+    C.education.forEach((ed) => {
+      const li = document.createElement('li');
+      li.className = 'timeline-item fade-in';
+      li.innerHTML = `
+        <div class="timeline-time">${ed.period || ''}</div>
+        <div class="timeline-card">
+          <h3>${ed.degree || ''}</h3>
+          <p>${ed.institution || ''}</p>
+        </div>`;
+      eduList.appendChild(li);
+    });
+  }
 
   // Experience
   const expList = $('#experienceList');
@@ -63,9 +130,9 @@
       li.innerHTML = `
         <div class="timeline-time">${e.period || ''}</div>
         <div class="timeline-card">
-          <h3>${e.title || ''} · ${e.company || ''}</h3>
+          <h3>${e.title || ''} @ ${e.company || ''}</h3>
           <p>${e.summary || ''}</p>
-          ${Array.isArray(e.tech) ? `<div class="chips">${e.tech.map(t => `<span class="chip">${t}</span>`).join('')}</div>` : ''}
+          ${Array.isArray(e.tech) ? `<div class="chips">${e.tech.map(t => `<span class="chip">${iconImg(t, 'chip-icon')}${t}</span>`).join('')}</div>` : ''}
           ${Array.isArray(e.bullets) ? `<ul class="bullets">${e.bullets.map(b => `<li>${b}</li>`).join('')}</ul>` : ''}
         </div>`;
       expList.appendChild(li);
@@ -86,7 +153,7 @@
         <div class="project-body">
           <h3 class="project-title">${p.name}</h3>
           <p class="project-desc">${p.description || ''}</p>
-          ${Array.isArray(p.tags) ? `<div class="project-tags">${p.tags.map(t => `<span class='chip'>${t}</span>`).join('')}</div>` : ''}
+          ${Array.isArray(p.tags) ? `<div class="project-tags">${p.tags.map(t => `<span class='chip'>${iconImg(t, 'chip-icon')}${t}</span>`).join('')}</div>` : ''}
         </div>
         <div class="project-actions">
           ${(p.links || []).map(l => `<a class="btn btn-outline" href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join('')}
@@ -98,7 +165,18 @@
   // Skills
   const skills = $('#skillsList');
   if (Array.isArray(C.skills) && skills) {
-    skills.innerHTML = C.skills.map(s => `<span class="skill">${s}</span>`).join('');
+    skills.innerHTML = C.skills.map(s => `<span class="skill">${iconImg(s, 'skill-icon')}${s}</span>`).join('');
+  }
+
+  // Certifications
+  const certs = $('#certificationsList');
+  if (Array.isArray(C.certifications) && certs) {
+    certs.innerHTML = (C.certifications || [])
+      .map(c => {
+        const issuerIcon = iconImg(c.issuer || '', 'chip-icon') || iconImg(c.name || '', 'chip-icon');
+        return `<span class="chip">${issuerIcon || ''}${c.name}${c.issuer ? ' - ' + c.issuer : ''}</span>`;
+      })
+      .join('');
   }
 
   // Theme toggle
@@ -108,19 +186,21 @@
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) root.setAttribute('data-theme', savedTheme);
   updateThemeButton();
-  themeToggle?.addEventListener('click', () => {
-    const current = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    root.setAttribute('data-theme', current);
-    localStorage.setItem('theme', current);
-    updateThemeButton();
-  });
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const current = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', current);
+      localStorage.setItem('theme', current);
+      updateThemeButton();
+    });
+  }
   function updateThemeButton(){
     const isLight = root.getAttribute('data-theme') === 'light';
-    themeIcon.textContent = isLight ? '🌞' : '🌙';
+    if (themeIcon) themeIcon.textContent = isLight ? 'Dark' : 'Light';
   }
 
-  // Scroll‑spy for nav
-  const sections = ['about','experience','projects','skills','contact'].map(id => ({id, el: document.getElementById(id)}));
+  // Scroll spy + smooth scroll
+  const sections = ['about','education','experience','projects','skills','certifications','contact'].map(id => ({id, el: document.getElementById(id)}));
   const navLinks = $$('.nav-link');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -131,8 +211,6 @@
     });
   }, { rootMargin: '-40% 0px -55% 0px', threshold: [0, 0.25, 0.5, 1] });
   sections.forEach(s => s.el && obs.observe(s.el));
-
-  // Smooth scroll
   navLinks.forEach(a => a.addEventListener('click', (e) => {
     const target = document.querySelector(a.getAttribute('href'));
     if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
@@ -144,177 +222,5 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { rootMargin: '0px 0px -10% 0px' });
   setTimeout(() => fadeEls().forEach(el => revealObs.observe(el)), 0);
-
-  // ==== Custom cursor (desktop) ====
-  const enableCustomCursor = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-  const cursor = $('#cursor');
-  if (enableCustomCursor && cursor) {
-    document.body.classList.add('has-custom-cursor');
-    let rafId = null;
-    let curX = 0, curY = 0;
-    let targetX = 0, targetY = 0;
-    const move = (e) => { targetX = e.clientX; targetY = e.clientY; if (!rafId) raf(); };
-    const raf = () => {
-      curX += (targetX - curX) * 0.2;
-      curY += (targetY - curY) * 0.2;
-      cursor.style.left = curX + 'px';
-      cursor.style.top = curY + 'px';
-      rafId = Math.hypot(targetX - curX, targetY - curY) < 0.1 ? null : requestAnimationFrame(raf);
-    };
-    window.addEventListener('mousemove', move, { passive: true });
-    window.addEventListener('mouseleave', () => cursor.classList.add('hide'));
-    window.addEventListener('mouseenter', () => cursor.classList.remove('hide'));
-    window.addEventListener('mousedown', () => cursor.classList.add('down'));
-    window.addEventListener('mouseup', () => cursor.classList.remove('down'));
-    // Hover state for interactive elements + text
-    const interactiveSel = 'a, button, .btn, .social-link, .project-card';
-    const textSel = 'p, h1, h2, h3, h4, h5, h6, li, .project-desc, .section-title, .headline, .subhead, .project-title, .skill';
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest(interactiveSel)) cursor.classList.add('link');
-      if (e.target.closest(textSel)) cursor.classList.add('text');
-    });
-    document.addEventListener('mouseout', (e) => {
-      if (e.target.closest(interactiveSel)) cursor.classList.remove('link');
-      if (e.target.closest(textSel)) cursor.classList.remove('text');
-    });
-
-    // Hide custom cursor when focusing text fields
-    document.addEventListener('focusin', (e) => {
-      if (e.target.matches('input, textarea, [contenteditable="true"]')) cursor.classList.add('hide');
-    });
-    document.addEventListener('focusout', (e) => {
-      if (e.target.matches('input, textarea, [contenteditable="true"]')) cursor.classList.remove('hide');
-    });
-
-    // Selection feedback
-    const onSel = () => {
-      const sel = window.getSelection?.();
-      if (!sel) return;
-      const selecting = sel.rangeCount > 0 && !sel.isCollapsed;
-      cursor.classList.toggle('selecting', selecting);
-    };
-    document.addEventListener('selectionchange', onSel);
-  }
-
-  // ==== Magnetic buttons =====
-  const magnetize = (el) => {
-    const strength = 10; // px
-    const onMove = (e) => {
-      const rect = el.getBoundingClientRect();
-      const relX = e.clientX - rect.left - rect.width / 2;
-      const relY = e.clientY - rect.top - rect.height / 2;
-      el.style.transform = `translate(${(relX/rect.width)*strength}px, ${(relY/rect.height)*strength}px)`;
-    };
-    const reset = () => { el.style.transform = 'translate(0,0)'; };
-    el.addEventListener('mousemove', onMove);
-    el.addEventListener('mouseleave', reset);
-  };
-  $$('.btn').forEach(magnetize);
-
-  // ==== Card tilt (projects) =====
-  const addTilt = (card) => {
-    const max = 7; // deg
-    const onMove = (e) => {
-      const r = card.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      const rx = (py * -2) * max;
-      const ry = (px * 2) * max;
-      card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
-      card.style.boxShadow = '0 12px 30px rgba(0,0,0,.35)';
-    };
-    const reset = () => { card.style.transform = ''; card.style.boxShadow = ''; };
-    card.addEventListener('mousemove', onMove);
-    card.addEventListener('mouseleave', reset);
-  };
-  // Observe project grid population and attach tilt
-  const grid = $('#projectsGrid');
-  if (grid) {
-    const tiltObserver = new MutationObserver(() => {
-      $$('.project-card', grid).forEach((c) => {
-        if (!c._tiltAttached) { addTilt(c); c._tiltAttached = true; }
-      });
-      // Animate any newly added project titles
-      $$('.project-title', grid).forEach((t) => {
-        if (!t.dataset.animated) splitText(t, 'words');
-      });
-    });
-    tiltObserver.observe(grid, { childList: true });
-    // If already there
-    $$('.project-card', grid).forEach((c) => { if (!c._tiltAttached) { addTilt(c); c._tiltAttached = true; } });
-    $$('.project-title', grid).forEach((t) => { if (!t.dataset.animated) splitText(t, 'words'); });
-  }
-
-  // ==== Hero parallax for orbs =====
-  const hero = $('#hero');
-  const orbs = $$('.orb', hero);
-  if (hero && orbs.length) {
-    hero.addEventListener('mousemove', (e) => {
-      const rect = hero.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      orbs.forEach((o, i) => {
-        const depth = (i + 1) * 8; // px
-        o.style.transform = `translate(${x*depth}px, ${y*depth}px)`;
-      });
-    });
-    hero.addEventListener('mouseleave', () => {
-      orbs.forEach(o => { o.style.transform = 'translate(0,0)'; });
-    });
-  }
-
-  // ==== VIP text animations (letters/words) =====
-  function splitText(el, mode = 'letters'){
-    if (!el || el.dataset.animated) return;
-    const text = el.textContent || '';
-    el.textContent = '';
-    el.classList.add('reveal-text');
-    const frag = document.createDocumentFragment();
-    let i = 0;
-    if (mode === 'words'){
-      const parts = text.split(/(\s+)/);
-      parts.forEach(part => {
-        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
-        const span = document.createElement('span');
-        span.className = 'char';
-        span.textContent = part;
-        span.style.transitionDelay = `${i * 35}ms`;
-        i++;
-        frag.appendChild(span);
-      });
-    } else {
-      Array.from(text).forEach(ch => {
-        const span = document.createElement('span');
-        span.className = 'char';
-        if (ch === ' ') { span.innerHTML = '&nbsp;'; }
-        else { span.textContent = ch; }
-        span.style.transitionDelay = `${i * 18}ms`;
-        i++;
-        frag.appendChild(span);
-      });
-    }
-    el.appendChild(frag);
-    el.dataset.animated = 'true';
-    return el;
-  }
-
-  function setupTextAnimations(){
-    const h1 = $('#headline');
-    if (h1 && !h1.dataset.animated) splitText(h1, 'letters');
-    $$('.section-title').forEach(el => { if (!el.dataset.animated) splitText(el, 'words'); });
-    $$('.project-title').forEach(el => { if (!el.dataset.animated) splitText(el, 'words'); });
-    // Observe and play when visible
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('play');
-          if (entry.target.classList.contains('vip-underline')) entry.target.classList.add('play');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '-10% 0px -10% 0px', threshold: 0.2 });
-    [h1, ...$$('.section-title'), ...$$('.project-title')].filter(Boolean).forEach(el => obs.observe(el));
-  }
-
-  setupTextAnimations();
 })();
+

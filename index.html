@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Personal portfolio — Full Stack & AI Engineer. Projects, experience, skills, and contact." />
-    <meta property="og:title" content="Your Name — Portfolio" />
-    <meta property="og:description" content="Full Stack & AI Engineer. Selected projects and experience." />
+    <meta name="description" content="Abdul Wajid - AI Engineer. LLM fine-tuning, RAG systems, and data/ML pipelines. Projects, experience, skills, and contact." />
+    <meta property="og:title" content="Abdul Wajid - Portfolio" />
+    <meta property="og:description" content="AI Engineer. LLMs, RAG, data pipelines. Selected projects and experience." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="/" />
     <meta property="og:image" content="assets/images/og-image.svg" />
-    <title>Portfolio — Full Stack & AI Engineer</title>
+    <title>Abdul Wajid - AI Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,19 +21,21 @@
     <header class="site-header">
       <div class="container header-inner">
         <a href="#top" class="brand" aria-label="Home">
-          <span class="brand-mark" aria-hidden>◆</span>
+          <span class="brand-mark" aria-hidden>AW</span>
           <span class="brand-text" id="brandName">Your Name</span>
         </a>
         <nav class="nav" aria-label="Primary">
           <a class="nav-link" href="#about">About</a>
+          <a class="nav-link" href="#education">Education</a>
           <a class="nav-link" href="#experience">Experience</a>
           <a class="nav-link" href="#projects">Projects</a>
           <a class="nav-link" href="#skills">Skills</a>
+          <a class="nav-link" href="#certifications">Certifications</a>
           <a class="nav-link" href="#contact">Contact</a>
         </nav>
         <div class="header-actions">
           <button id="themeToggle" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">
-            <span class="icon" id="themeIcon">🌙</span>
+            <span class="icon" id="themeIcon">Theme</span>
           </button>
           <a id="resumeLink" class="btn btn-outline" href="#" target="_blank" rel="noopener">Resume</a>
         </div>
@@ -43,12 +45,12 @@
     <main id="top">
       <section class="hero container" id="hero">
         <div class="hero-content">
-          <p class="eyebrow" id="role">Full Stack & AI Engineer</p>
+          <p class="eyebrow" id="role">AI Engineer</p>
           <h1 class="headline vip-shimmer" id="headline">
-            I build reliable, fast, human‑centered products.
+            I build reliable, fast, human-centered products.
           </h1>
           <p class="subhead" id="tagline">
-            Currently open to impactful work. I craft end‑to‑end web apps, AI features, and delightful developer experiences.
+            Currently open to impactful work. I craft end-to-end web apps, AI features, and delightful developer experiences.
           </p>
           <div class="cta">
             <a class="btn btn-primary" href="#projects">View Projects</a>
@@ -71,10 +73,10 @@
         <div class="about-grid">
           <div>
             <p id="aboutText">
-              I’m a product‑minded engineer focused on building fast, accessible experiences. I enjoy working across the stack: shipping pragmatic UX, robust APIs, and efficient infra.
+              I'm a product-minded engineer focused on building fast, accessible experiences. I enjoy working across the stack: shipping pragmatic UX, robust APIs, and efficient infra.
             </p>
             <p>
-              Outside of work, I tinker with small tools, read design systems, and contribute to open‑source.
+              Outside of work, I tinker with small tools, read design systems, and contribute to open-source.
             </p>
           </div>
           <ul class="quick-facts" id="quickFacts">
@@ -83,6 +85,11 @@
             <li><span>Availability</span><strong id="availability">Open to opportunities</strong></li>
           </ul>
         </div>
+      </section>
+
+      <section id="education" class="section container">
+        <h2 class="section-title vip-underline">Education</h2>
+        <ol class="timeline" id="educationList"></ol>
       </section>
 
       <section id="experience" class="section container">
@@ -104,6 +111,11 @@
         <div class="skills" id="skillsList"></div>
       </section>
 
+      <section id="certifications" class="section container">
+        <h2 class="section-title vip-underline">Certifications</h2>
+        <div class="chips" id="certificationsList"></div>
+      </section>
+
       <section id="contact" class="section container">
         <h2 class="section-title vip-underline">Contact</h2>
         <div class="contact-card">
@@ -118,8 +130,8 @@
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <span id="footerName">© <span id="year"></span> Your Name</span>
-        <span class="footer-right">Built with HTML • CSS • JS</span>
+        <span id="footerName">(c) <span id="year"></span> Your Name</span>
+        <span class="footer-right">Built with HTML | CSS | JS</span>
       </div>
     </footer>
 

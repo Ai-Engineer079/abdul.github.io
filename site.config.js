@@ -1,115 +1,148 @@
 window.SITE_CONFIG = {
   name: "Abdul Wajid",
-  role: "Full Stack & AI Engineer",
-  location: "Karachi, Pakistan",
+  role: "AI Engineer",
+  location: "Karachi, Sindh, Pakistan",
   availability: "Open to opportunities",
   email: "engineer.wajid.ds79@gmail.com",
-  resumeUrl: "#", // replace with a real link or file
+  phone: "+92-311-0351773",
+  resumeUrl: "#",
   socials: [
-    { name: "GitHub", url: "https://github.com/Ai-Engineer079", icon: "🐙" },
-    { name: "LinkedIn", url: "https://www.linkedin.com/in/wajidai/", icon: "💼" },
-    { name: "X", url: "https://x.com/yourname", icon: "𝕏" },
-    { name: "Email", url: "mailto:engineer.wajid.ds79@gmail.com", icon: "✉️" },
+    { name: "LinkedIn", url: "https://www.linkedin.com/in/wajidai/", icon: "🔗" },
+    { name: "GitHub", url: "https://github.com/Ai-Engineer079", icon: "🔗" },
+    { name: "Kaggle", url: "https://www.kaggle.com/abdulwajid79", icon: "🔗" },
+    { name: "Hugging Face", url: "https://huggingface.co/engineerWajid", icon: "🔗" },
+    { name: "Microsoft Learn", url: "https://learn.microsoft.com/en-us/users/abdulwajid/achievements", icon: "🔗" },
+    { name: "Email", url: "mailto:engineer.wajid.ds79@gmail.com", icon: "✉️" }
   ],
-  about:
-    "Engineer focused on building fast, accessible web apps and pragmatic AI features. I love product thinking, developer experience, and shipping end‑to‑end solutions.",
+about:
+  "I am an AI Engineer specializing in Advanced NLP and Generative AI, with expertise in deploying and fine-tuning open source Large Language Models (LLMs) like llama 3.1 8b, Holding a B.E. in Computer Systems Engineering from Mehran University, I have a strong foundation in AI, machine learning, and software development, driving impactful AI solutions across industries." +
+  "\nCore Expertise:\n" +
+  "NLP & Generative AI: Expertise in deploying LLMs, RAG-based chatbots, and fine-tuning open-source models to build intelligent conversational systems and data-driven solutions.\n" +
+  "Automation & Workflows: Experienced in integrating AI with N8N to streamline automation and enhance system efficiency.\n" +
+  "AI Solutions: Proven track record in AI-powered chatbots, document analysis, and text-to-image platforms using LangChain, Gradio, and OpenAI APIs.\n" +
+  "Current Role: AI Engineer at Bluescarf.ai – Focused on developing scalable AI solutions, including RAG chatbots, automation systems, and custom model fine-tuning for client-specific applications.\n" +
+  "Technical Skills: Deep Learning: Proficient in CNNs, RNNs, and Transformers. Frameworks: TensorFlow, PyTorch, LangChain, Pinecone, Chroma. MLOps & Deployment: Skilled in Docker, Azure, and CI/CD pipelines.\n" +
+  "Let’s connect to explore how AI can transform your business and create innovative solutions.",
+
   quickFacts: [
-    { label: "Location", value: "Your City, Country" },
-    { label: "Focus", value: "Web, AI, DX" },
+    { label: "Location", value: "Karachi, Sindh, Pakistan" },
+    { label: "Phone", value: "+92-311-0351773" },
+    { label: "Education", value: "B.E. Computer Systems Engineering (2020–2024)" },
+    { label: "Focus", value: "Code + No Code Solutions, Gen AI, Agentic AI, N8N" },
     { label: "Availability", value: "Open to opportunities" },
+    { label: "Certifications", value: "Intro to Python ( DataCamp, HackerRank ), Foundations of Data Science ( Google/Coursera ), AI Agents Fundamentals ( Hugging Face )" }
+  ],
+  education: [
+    {
+      period: "2020 – 2024",
+      institution: "Mehran University of Engineering & Technology (MUET), Jamshoro, Pakistan",
+      degree: "B.E., Computer Systems Engineering"
+    }
+  ],
+  certifications: [
+    { name: "Introduction to Python", issuer: "DataCamp & HackerRank" },
+    { name: "Foundations of Data Science", issuer: "Google (Coursera)" },
+    { name: "AI Agents Fundamentals", issuer: "Hugging Face" }
   ],
   experience: [
     {
-      period: "2023 — Present",
-      company: "Acme Corp",
-      title: "Senior Full Stack Engineer",
+      period: "May 2025 – Present",
+      company: "X Flow Software Technology LLC (Bluescarf AI)",
+      title: "AI Engineer",
       summary:
-        "Led development of a multi‑tenant dashboard, built AI‑assisted workflows, and improved performance across the stack.",
+        "End-to-end ownership of LLM fine-tuning, RAG platform work, and ML pipeline reliability in production.",
       bullets: [
-        "Designed and shipped a role‑based dashboard used by 10k+ users",
-        "Cut API latency by ~40% via query tuning and caching",
-        "Prototyped embeddings‑based search and summarization features",
+        "Fine-tuned LLMs (GPT, Claude, Llama, Mistral) using LoRA, QLoRA, PEFT; improved model efficiency by 28%",
+        "Built data pipelines with Apache Spark and Databricks; reduced ETL processing time by 35%",
+        "Delivered RAG systems using Pinecone and Chroma; boosted query accuracy by 40%",
+        "Deployed ML pipelines with MLflow into CI/CD workflows; achieved 99.5% system uptime"
       ],
-      tech: ["TypeScript", "React", "Node.js", "Postgres", "OpenAI"]
+      tech: ["LoRA","QLoRA","PEFT","OpenAI","Claude","Llama","Mistral","Spark","Databricks","Pinecone","Chroma","MLflow","CI/CD"]
     },
     {
-      period: "2021 — 2023",
-      company: "Startly",
-      title: "Full Stack Engineer",
+      period: "2024 – 2025",
+      company: "Abdul Majid Bhurgri Institute of Language Engineering (AMBILE)",
+      title: "AI/NLP Engineer",
       summary:
-        "Shipped core features for the product, introduced testing practices, and reduced build times.",
+        "Under Culture, Tourism, Antiquities & Archives Department, Govt. of Sindh; delivered Sindhi language AI projects.",
       bullets: [
-        "Built realtime collaboration with WebSockets",
-        "Added CI checks and testing for critical flows",
-        "Reduced bundle size by 30% with code‑splitting",
+        "Sindhi Bhittai ChatBot – RAG-based chatbot using LangChain on Bhittai’s works",
+        "Sindhi Law Assistant (AI Wakeel) – Legal Q&A chatbot with custom NLP dataset",
+        "Sindhi Speech-to-Text – Fine-tuned Transformer ASR for Sindhi transcription",
+        "Sindhi OCR – Trained Tesseract 5 on 10K pairs; achieved 45% WER, 19% CER",
+        "Data Cleaning Pipeline – Regex + Spark/Pandas workflows; boosted cleaning throughput by 75%",
+        "Sindhi LLM Data Pipeline – Preprocessing/tokenization for a 118M-token corpus",
+        "Curated and managed the AMBILE Sindhi dataset"
       ],
-      tech: ["Next.js", "Prisma", "tRPC", "Redis"]
+      tech: ["LangChain","Transformers","ASR","Tesseract","Spark","Pandas","Regex","Pinecone","Chroma"]
     }
   ],
   projects: [
     {
-      name: "InsightBoard",
-      description: "Analytics dashboard with AI insights and anomaly detection.",
+      name: "Automated Chest X-ray Report Generation",
+      description: "Classifies CXRs (Normal/Pneumonia/TB/COVID-19) with VGG16 (92.58% test accuracy) and generates radiology reports using GPT-4; built clinician UI with Gradio.",
       image: "assets/images/project-1.svg",
-      tags: ["Next.js", "Postgres", "OpenAI"],
+      tags: ["VGG16","TensorFlow","PyTorch","GPT-4","Gradio"],
       links: [
-        { label: "Live", url: "#" },
         { label: "GitHub", url: "#" }
       ]
     },
     {
-      name: "SnapShop",
-      description: "Headless e‑commerce storefront with edge caching.",
+      name: "Prompt Optimization Engine",
+      description: "Applies prompt engineering, LangChain, and GPT-4 to optimize AI responses against task criteria.",
       image: "assets/images/project-2.svg",
-      tags: ["Remix", "Stripe", "Cloudflare"],
+      tags: ["LangChain","GPT-4","Prompt Engineering"],
       links: [
-        { label: "Live", url: "#" },
         { label: "GitHub", url: "#" }
       ]
     },
     {
-      name: "DocuChat",
-      description: "Chat with your docs using RAG and embeddings.",
+      name: "AI E-commerce Chatbot",
+      description: "Shopping assistant with RAG for product Q&A and recommendations using LangChain + GPT-4.",
       image: "assets/images/project-3.svg",
-      tags: ["Python", "LlamaIndex", "Pinecone"],
+      tags: ["RAG","LangChain","GPT-4","E-commerce"],
       links: [
-        { label: "Live", url: "#" },
         { label: "GitHub", url: "#" }
       ]
     },
     {
-      name: "FormFlow",
-      description: "Form builder with drag‑and‑drop and webhooks.",
+      name: "AI Support Chatbot (RAG)",
+      description: "Support chatbot integrating Pinecone vector DB with GPT-4 for dynamic responses.",
       image: "assets/images/project-4.svg",
-      tags: ["React", "tRPC", "Prisma"],
+      tags: ["RAG","Pinecone","GPT-4"],
       links: [
-        { label: "Live", url: "#" },
         { label: "GitHub", url: "#" }
       ]
     },
     {
-      name: "PixelArt",
-      description: "Small pixel editor with layers and export.",
+      name: "Personal Document Chat Model",
+      description: "Local doc Q&A using LangChain + Chroma with Gemini as the LLM backend.",
       image: "assets/images/project-5.svg",
-      tags: ["Canvas", "TypeScript"],
+      tags: ["LangChain","Chroma","Gemini"],
       links: [
-        { label: "Live", url: "#" },
         { label: "GitHub", url: "#" }
       ]
     },
     {
-      name: "TrackIt",
-      description: "Habit tracker with streaks and reminders.",
+      name: "Text-to-Image Generation Web App",
+      description: "Web app built with Flask using DALL·E 3 for text-to-image generation.",
       image: "assets/images/project-6.svg",
-      tags: ["PWA", "IndexedDB"],
+      tags: ["DALL·E 3","Flask"],
       links: [
-        { label: "Live", url: "#" },
         { label: "GitHub", url: "#" }
       ]
     }
   ],
   skills: [
-    "JavaScript","TypeScript","React","Next.js","Node.js","Express","tRPC","GraphQL","Prisma","Postgres","MongoDB","Redis","Tailwind","Styled Components","Vite","Webpack","Testing Library","Jest","Cypress","Python","FastAPI","OpenAI APIs","LangChain","Docker","Git","CI/CD"
+    "Python",
+    "Supervised Learning","Unsupervised Learning","Classification","Regression","Clustering","Anomaly Detection",
+    "CNNs","RNNs","LSTMs","BERT","GPT-3.5/4","Gemini",
+    "Word2Vec","GPT-NER","RAG","LangChain",
+    "Pinecone","Chroma","FAISS","Weaviate","Milvus",
+    "AWS","Azure","Docker","CI/CD","Databricks","MLflow",
+    "PyTorch","TensorFlow","Flask","Streamlit","Gradio",
+    "Spark","PySpark",
+    "SQL","MySQL","PostgreSQL",
+    "Git","GitHub","VS Code","Jupyter","Google Colab","Hugging Face"
   ]
 };
-

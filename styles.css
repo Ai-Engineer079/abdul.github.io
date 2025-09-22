@@ -27,12 +27,14 @@ p,h1,h2,h3,h4,h5,h6{overflow-wrap:break-word}
   --dur-fast: .18s;
   --dur: .45s;
   --dur-slow: 1.6s;
+  --icon-filter: invert(100%) brightness(200%);
 }
 
 [data-theme="light"]{
   --bg:#f7f7fb; --bg-elev:#ffffff; --card:#ffffff;
   --text:#101016; --muted:#51515a; --border:#e6e6ee;
   --shadow: 0 8px 30px rgba(0,0,0,.08);
+  --icon-filter: none;
 }
 
 body{
@@ -78,6 +80,7 @@ body{
 .socials{display:flex;gap:10px;flex-wrap:wrap}
 .social-link{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);padding:8px 12px;border-radius:999px;color:var(--muted);text-decoration:none}
 .social-link:hover{color:var(--text);border-color:var(--muted)}
+.social-link .icon-img{width:16px;height:16px}
 .hero-visual{display:flex;justify-content:center;position:relative;min-height:280px}
 .avatar{width:min(280px, 60%);filter:drop-shadow(var(--shadow))}
 
@@ -109,6 +112,7 @@ body{
 .timeline-card p{color:var(--muted);margin-top:6px}
 .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip .icon-img{width:14px;height:14px}
 
 /* ===== Projects ===== */
 .projects-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:16px}
@@ -118,13 +122,15 @@ body{
 .project-title{font-size:18px;margin-bottom:6px}
 .project-desc{color:var(--muted);font-size:14px;margin-bottom:10px}
 .project-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.project-tags .icon-img{width:14px;height:14px}
 .project-actions{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);}
 .project-actions a{font-size:14px}
 .project-card:hover{transform:translateY(-2px)}
 
 /* ===== Skills ===== */
 .skills{display:flex;gap:10px;flex-wrap:wrap}
-.skill{padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.02));color:var(--text);transition:transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease)}
+.skill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.02));color:var(--text);transition:transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease)}
+.skill .icon-img{width:16px;height:16px}
 .skill:hover{transform:translateY(-2px);border-color:var(--muted)}
 
 /* ===== Contact ===== */
@@ -141,6 +147,9 @@ body{
 .hidden{display:none!important}
 .fade-in{opacity:0;transform:translateY(8px) scale(.98);transition:opacity .6s var(--ease), transform .6s var(--ease)}
 .fade-in.visible{opacity:1;transform:none}
+
+/* Generic icon styling for Simple Icons */
+.icon-img{display:inline-block;vertical-align:middle;filter:var(--icon-filter);opacity:.95}
 
 /* Custom cursor */
 .cursor{position:fixed;left:0;top:0;width:20px;height:20px;border:2px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1000;opacity:.85;transition:width var(--dur-fast), height var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast), transform .06s, box-shadow var(--dur-fast) var(--ease), backdrop-filter var(--dur-fast) var(--ease)}

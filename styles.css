@@ -81,6 +81,7 @@ body{
 .social-link{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);padding:8px 12px;border-radius:999px;color:var(--muted);text-decoration:none}
 .social-link:hover{color:var(--text);border-color:var(--muted)}
 .social-link .icon-img{width:16px;height:16px}
+.icon-img svg{width:100%;height:100%;display:block}
 .hero-visual{display:flex;justify-content:center;position:relative;min-height:280px}
 .avatar{width:min(280px, 60%);filter:drop-shadow(var(--shadow))}
 
@@ -149,7 +150,20 @@ body{
 .fade-in.visible{opacity:1;transform:none}
 
 /* Generic icon styling for Simple Icons */
-.icon-img{display:inline-block;vertical-align:middle;filter:var(--icon-filter);opacity:.95}
+.icon-img{display:inline-block;vertical-align:middle;opacity:.95}
+.icon-img.mono{filter:var(--icon-filter)}
+.icon-img img{width:100%;height:100%;display:block;filter:inherit}
+
+/* ===== Certificates Marquee ===== */
+.certs-marquee{overflow:hidden;border:1px solid var(--border);border-radius:14px;background:var(--card);padding:12px}
+.certs-track{display:flex;gap:16px;align-items:center;will-change:transform;animation:marquee-ltr 40s linear infinite}
+.certs-marquee:hover .certs-track{animation-play-state:paused}
+.certs-item{flex:0 0 auto}
+.certs-item a{display:block}
+.certs-img{height:120px;width:auto;object-fit:contain;display:block;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);transition:transform var(--dur-fast) var(--ease)}
+.certs-img:hover{transform:translateY(-3px)}
+
+@keyframes marquee-ltr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 
 /* Custom cursor */
 .cursor{position:fixed;left:0;top:0;width:20px;height:20px;border:2px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1000;opacity:.85;transition:width var(--dur-fast), height var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast), transform .06s, box-shadow var(--dur-fast) var(--ease), backdrop-filter var(--dur-fast) var(--ease)}

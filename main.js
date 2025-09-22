@@ -39,11 +39,46 @@
     if (ICON_SLUGS[norm]) return ICON_SLUGS[norm];
     return null;
   };
-  const iconImg = (name, extraClass = '') => {
+  const iconSpan = (name, extraClass = '') => {
     const slug = toSlug(name);
     if (!slug) return '';
-    const url = ICON_CDN(slug);
-    return `<img class="icon-img ${extraClass}" src="${url}" alt="${name} icon" loading="lazy" />`;
+    return `<span class="icon-img ${extraClass}" data-icon="${slug}" data-label="${name}" aria-hidden="true"></span>`;
+  };
+
+  // Load and colorize SVG icons
+  const ICON_META_URL = 'https://cdn.jsdelivr.net/npm/simple-icons@latest/_data/simple-icons.json';
+  let ICON_HEX = null;
+  const iconHex = async (slug) => {
+    if (ICON_HEX) return ICON_HEX[slug];
+    try {
+      const res = await fetch(ICON_META_URL, { cache: 'force-cache' });
+      const data = await res.json();
+      ICON_HEX = {};
+      (data.icons || []).forEach(i => { ICON_HEX[i.slug] = `#${i.hex}`; });
+      return ICON_HEX[slug];
+    } catch { return undefined; }
+  };
+  const SVG_CACHE = new Map();
+  const loadIconInto = async (el) => {
+    const slug = el?.dataset?.icon; if (!slug || el.dataset.loaded) return;
+    try {
+      let svg = SVG_CACHE.get(slug);
+      if (!svg) {
+        const res = await fetch(ICON_CDN(slug), { cache: 'force-cache' });
+        svg = await res.text();
+        SVG_CACHE.set(slug, svg);
+      }
+      const color = (await iconHex(slug)) || (getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#fff');
+      el.innerHTML = svg;
+      el.style.fill = color;
+      const svgEl = el.querySelector('svg');
+      if (svgEl) { svgEl.setAttribute('aria-label', el.dataset.label || slug); svgEl.setAttribute('focusable','false'); }
+      el.dataset.loaded = '1';
+    } catch {}
+  };
+  const loadAllIcons = () => {
+    const nodes = $$('.icon-img[data-icon]:not([data-loaded])');
+    nodes.forEach(n => loadIconInto(n));
   };
 
   // Title, brand, footer
@@ -81,7 +116,7 @@
   if (Array.isArray(C.socials) && socials) {
     socials.innerHTML = C.socials
       .map(s => {
-        const icon = iconImg(s.name, 'social-icon');
+        const icon = iconSpan(s.name, 'social-icon');
         return `<a class="social-link" href="${s.url}" target="_blank" rel="noopener">${icon || ''}<span>${s.name}</span></a>`;
       })
       .join('');
@@ -132,7 +167,7 @@
         <div class="timeline-card">
           <h3>${e.title || ''} @ ${e.company || ''}</h3>
           <p>${e.summary || ''}</p>
-          ${Array.isArray(e.tech) ? `<div class="chips">${e.tech.map(t => `<span class="chip">${iconImg(t, 'chip-icon')}${t}</span>`).join('')}</div>` : ''}
+          ${Array.isArray(e.tech) ? `<div class="chips">${e.tech.map(t => `<span class="chip">${iconSpan(t, 'chip-icon')}${t}</span>`).join('')}</div>` : ''}
           ${Array.isArray(e.bullets) ? `<ul class="bullets">${e.bullets.map(b => `<li>${b}</li>`).join('')}</ul>` : ''}
         </div>`;
       expList.appendChild(li);
@@ -153,7 +188,7 @@
         <div class="project-body">
           <h3 class="project-title">${p.name}</h3>
           <p class="project-desc">${p.description || ''}</p>
-          ${Array.isArray(p.tags) ? `<div class="project-tags">${p.tags.map(t => `<span class='chip'>${iconImg(t, 'chip-icon')}${t}</span>`).join('')}</div>` : ''}
+          ${Array.isArray(p.tags) ? `<div class="project-tags">${p.tags.map(t => `<span class='chip'>${iconSpan(t, 'chip-icon')}${t}</span>`).join('')}</div>` : ''}
         </div>
         <div class="project-actions">
           ${(p.links || []).map(l => `<a class="btn btn-outline" href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join('')}
@@ -165,7 +200,7 @@
   // Skills
   const skills = $('#skillsList');
   if (Array.isArray(C.skills) && skills) {
-    skills.innerHTML = C.skills.map(s => `<span class="skill">${iconImg(s, 'skill-icon')}${s}</span>`).join('');
+    skills.innerHTML = C.skills.map(s => `<span class="skill">${iconSpan(s, 'skill-icon')}${s}</span>`).join('');
   }
 
   // Certifications
@@ -173,10 +208,29 @@
   if (Array.isArray(C.certifications) && certs) {
     certs.innerHTML = (C.certifications || [])
       .map(c => {
-        const issuerIcon = iconImg(c.issuer || '', 'chip-icon') || iconImg(c.name || '', 'chip-icon');
+        const issuerIcon = iconSpan(c.issuer || '', 'chip-icon') || iconSpan(c.name || '', 'chip-icon');
         return `<span class="chip">${issuerIcon || ''}${c.name}${c.issuer ? ' - ' + c.issuer : ''}</span>`;
       })
       .join('');
+  }
+
+  // Certificates Marquee (images)
+  const certTrack = $('#certificatesTrack');
+  const certGallery = Array.isArray(C.certificatesGallery) ? C.certificatesGallery : [];
+  if (certTrack && certGallery.length) {
+    const doubled = [...certGallery, ...certGallery];
+    certTrack.innerHTML = doubled.map(c => {
+      const imgSrc = c.image;
+      const url = c.url || '#';
+      const alt = c.alt || 'Certificate';
+      return `<div class="certs-item"><a href="${url}" target="_blank" rel="noopener"><img class="certs-img" src="${imgSrc}" alt="${alt}" loading="lazy"></a></div>`;
+    }).join('');
+  }
+
+  // Highlights (hero)
+  const heroHL = $('#heroHighlights');
+  if (Array.isArray(C.highlights) && heroHL) {
+    heroHL.innerHTML = C.highlights.map(h => `<span class="chip">${iconSpan(h.icon || h.label, 'chip-icon')}${h.label}</span>`).join('');
   }
 
   // Theme toggle
@@ -200,7 +254,7 @@
   }
 
   // Scroll spy + smooth scroll
-  const sections = ['about','education','experience','projects','skills','certifications','contact'].map(id => ({id, el: document.getElementById(id)}));
+  const sections = ['about','education','experience','projects','skills','certifications','certificates','contact'].map(id => ({id, el: document.getElementById(id)}));
   const navLinks = $$('.nav-link');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -222,5 +276,36 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { rootMargin: '0px 0px -10% 0px' });
   setTimeout(() => fadeEls().forEach(el => revealObs.observe(el)), 0);
-})();
 
+  // Text animations for headline and section titles
+  function splitText(el){
+    if (!el || el.dataset.animated) return;
+    const text = el.textContent || '';
+    el.textContent = '';
+    el.classList.add('reveal-text');
+    const frag = document.createDocumentFragment();
+    let i = 0;
+    Array.from(text).forEach(ch => {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.textContent = ch === ' ' ? '\u00a0' : ch;
+      span.style.transitionDelay = `${i * 22}ms`;
+      i++;
+      frag.appendChild(span);
+    });
+    el.appendChild(frag);
+    el.dataset.animated = 'true';
+  }
+  (function setupTextAnimations(){
+    const h1 = $('#headline');
+    splitText(h1);
+    $$('.section-title').forEach(splitText);
+    const obs2 = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('play'); obs2.unobserve(entry.target); } });
+    }, { rootMargin: '-10% 0px -10% 0px', threshold: 0.2 });
+    [h1, ...$$('.section-title')].filter(Boolean).forEach(el => obs2.observe(el));
+  })();
+
+  // Colorize icons after content is in DOM
+  loadAllIcons();
+})();

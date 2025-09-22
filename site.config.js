@@ -133,6 +133,19 @@ about:
       ]
     }
   ],
+  highlights: [
+    { label: "28% LLM efficiency via LoRA/QLoRA", icon: "OpenAI" },
+    { label: "40% RAG accuracy lift (LangChain)", icon: "LangChain" },
+    { label: "99.5% uptime with MLflow CI/CD", icon: "MLflow" },
+    { label: "35% faster ETL (Apache Spark)", icon: "Apache Spark" }
+  ],
+  certificatesGallery: [
+    // Map your certificate images to their credential URLs
+    { image: "assets/certificates/coursera.png", url: "https://www.coursera.org/account/accomplishments/verify/8DP5R0NRWDG9?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course", alt: "Coursera Certificate" },
+    { image: "assets/certificates/Screenshot 2025-09-22 161810.png", url: "#", alt: "Certificate" },
+    { image: "assets/certificates/Screenshot 2025-09-22 161825.png", url: "#", alt: "Certificate" },
+    { image: "assets/certificates/Screenshot 2025-09-22 161946.png", url: "https://www.hackerrank.com/certificates/iframe/bc68ae6df390", alt: "Certificate" }
+  ],
   skills: [
     "Python",
     "Supervised Learning","Unsupervised Learning","Classification","Regression","Clustering","Anomaly Detection",

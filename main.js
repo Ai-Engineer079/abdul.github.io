@@ -297,7 +297,8 @@
   }
   function updateThemeButton(){
     const isLight = root.getAttribute('data-theme') === 'light';
-    if (themeIcon) themeIcon.textContent = isLight ? 'Dark' : 'Light';
+    // Minimal icon-only label: moon when light (can switch to dark), sun when dark (can switch to light)
+    if (themeIcon) themeIcon.textContent = isLight ? '☾' : '☀';
   }
 
   // Scroll spy + smooth scroll

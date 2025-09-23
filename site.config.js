@@ -103,9 +103,9 @@ window.SITE_CONFIG = {
       name: "Automated Chest X-ray Report Generation",
       description:
         "Classifies CXRs (Normal/Pneumonia/TB/COVID-19) with VGG16 (92.58% test accuracy) and generates radiology reports using GPT-4; built clinician UI with Gradio.",
-      image: "assets/images/project-1.svg",
+      image: "assets/images/project 1.jpg",
       tags: ["VGG16", "TensorFlow", "PyTorch", "GPT-4", "Gradio"],
-      links: [{ label: "GitHub", url: "#" }]
+      links: [{ label: "GitHub", url: "https://github.com/Ai-Engineer079/Automated-Chest-X-Ray-and-Report-Generation.git" }]
     },
     {
       name: "Prompt Optimization Engine",
@@ -174,24 +174,24 @@ window.SITE_CONFIG = {
 
   recommendations: [
     {
-      name: "Jane Doe",
-      title: "Product Manager",
-      company: "TechCorp",
-      avatar: "assets/images/avatar.svg",
-      logo: "assets/images/xflowLogo.svg",
+      name: "Sarfaraz Ahmed",
+      title: "AI Software Engineer",
+      company: "Chirp",
+      avatar: "assets/images/sarfraz.jpeg",
+      logo: "assets/images/trychirp_logo.jpeg",
       rating: 5,
       text:
-        "Abdul consistently delivers reliable, high-quality AI features with clear communication and strong ownership."
+        "Abdul is a great problem solving mind.He can tackle any challenges and solve them effectively with his skills and knowledge."
     },
     {
-      name: "John Smith",
-      title: "CTO",
-      company: "DataWorks",
-      avatar: "assets/images/avatar.svg",
-      logo: "assets/images/ambileLogo.svg",
+      name: "Umer Hanif",
+      title: "Country Manager",
+      company: "Bluescarf.ai",
+      avatar: "assets/images/umer Hanif.jpeg",
+      logo: "assets/images/bluescarf_logo.jpeg",
       rating: 5,
       text:
-        "His RAG systems and LLM fine-tuning significantly improved accuracy and time-to-value for our teams."
+        "Strong engineering rigor and pragmatic approach. and time-to-value for our teams."
     },
     {
       name: "Aisha Khan",

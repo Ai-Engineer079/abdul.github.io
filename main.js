@@ -96,7 +96,13 @@
 
   // About + quick facts
   const aboutText = $('#aboutText');
-  if (aboutText) aboutText.textContent = C.about || aboutText.textContent || '';
+  if (aboutText) {
+    if (C.aboutHtml) {
+      aboutText.innerHTML = C.aboutHtml;
+    } else {
+      aboutText.textContent = C.about || aboutText.textContent || '';
+    }
+  }
   const location = $('#location');
   if (location) location.textContent = C.location || 'Remote';
   const availability = $('#availability');

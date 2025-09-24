@@ -5,6 +5,9 @@
   availability: "Open to opportunities",
   email: "engineer.wajid.ds79@gmail.com",
   phone: "+92-311-0351773",
+  // Favicons (tab icon) — replace with your photo if you want
+  favicon: "assets/images/avatar.svg",
+  appleIcon: "assets/images/og image.jpg",
   resumeUrl: "assets/Abdul%20Wajid%20(Resume).pdf",
   socials: [
     { name: "LinkedIn", url: "https://www.linkedin.com/in/wajidai/" },

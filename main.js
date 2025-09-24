@@ -1,4 +1,4 @@
-(() => {
+﻿(() => {
   const C = window.SITE_CONFIG || {};
 
   const $ = (s, p = document) => p.querySelector(s);
@@ -94,6 +94,16 @@
   if (footerName) footerName.innerHTML = `(c) <span id="year"></span> ${C.name || 'Your Name'}`;
   const year = $('#year');
   if (year) year.textContent = new Date().getFullYear();
+  // Favicon and apple-touch-icon from config (optional)
+  const favLink = document.querySelector('#favicon');
+  const appleIcon = document.querySelector('#appleIcon');
+  if (C.favicon && favLink) {
+    favLink.href = C.favicon;
+    favLink.type = (/\.svg$/i.test(C.favicon) ? 'image/svg+xml' : 'image/png');
+  }
+  if (C.appleIcon && appleIcon) {
+    appleIcon.href = C.appleIcon;
+  }
   const resumeLink = $('#resumeLink');
   if (resumeLink) {
     resumeLink.href = C.resumeUrl || '#';
@@ -273,7 +283,7 @@
   if (recTrack && Array.isArray(C.recommendations)) {
     const makeStars = (n) => {
       const count = Math.max(0, Math.min(5, Math.round(n || 0)));
-      return `<span class="stars">${'★'.repeat(count)}${'☆'.repeat(5-count)}</span>`;
+      return `<span class="stars">${'â˜…'.repeat(count)}${'â˜†'.repeat(5-count)}</span>`;
     };
     const cards = (arr) => arr.map(r => `
       <article class="rec-card">
@@ -332,18 +342,12 @@
     });
   }
   function updateThemeButton(){
-    const isLight = root.getAttribute('data-theme') === 'light';
-    // Minimal icon-only label: moon when light (can switch to dark), sun when dark (can switch to light)
-    if (themeIcon) themeIcon.textContent = isLight ? '☾' : '☀';
-  }
-  // Override with improved icon + label
-  function updateThemeButton(){
-    const isLight = root.getAttribute('data-theme') === 'light';
-    if (themeIcon) themeIcon.textContent = isLight ? '🌙' : '☀';
-    if (themeToggle) themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
-  }
-
-  // Scroll spy + smooth scroll
+  const isLight = root.getAttribute('data-theme') === 'light';
+  if (themeIcon) themeIcon.textContent = isLight ? '🌙' : '☀';
+  if (themeToggle) themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+  const themeColor = document.querySelector('#themeColor');
+  if (themeColor) themeColor.setAttribute('content', isLight ? '#f7f7fb' : '#0b0b0f');
+}// Scroll spy + smooth scroll
   const sections = ['about','education','experience','projects','skills','certifications','certificates','recommendations','contact'].map(id => ({id, el: document.getElementById(id)}));
   const navLinks = $$('.nav-link');
   const nav = document.getElementById('primaryNav');
@@ -458,3 +462,4 @@
     });
   }
 })();
+

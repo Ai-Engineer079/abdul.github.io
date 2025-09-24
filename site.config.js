@@ -1,11 +1,11 @@
-window.SITE_CONFIG = {
+﻿window.SITE_CONFIG = {
   name: "Abdul Wajid",
   role: "AI Engineer",
   location: "Karachi, Sindh, Pakistan",
   availability: "Open to opportunities",
   email: "engineer.wajid.ds79@gmail.com",
   phone: "+92-311-0351773",
-  resumeUrl: "#",
+  resumeUrl: "assets/Abdul%20Wajid%20(Resume).pdf",
   socials: [
     { name: "LinkedIn", url: "https://www.linkedin.com/in/wajidai/" },
     { name: "GitHub", url: "https://github.com/Ai-Engineer079" },
@@ -15,11 +15,10 @@ window.SITE_CONFIG = {
     { name: "Email", url: "mailto:engineer.wajid.ds79@gmail.com" }
   ],
   aboutHtml: `
-    <strong>AI Engineer</strong> | <strong>NLP</strong> & <strong>Generative AI</strong> Specialist<br>
-    I fine‑tune LLMs (Llama&nbsp;3.1&nbsp;8B, GPT‑4, Mistral) and build <strong>RAG chatbots</strong> and reliable ML pipelines.<br>
-    At <a href="https://xflowresearch.com" target="_blank" rel="noopener"><strong>Bluescarf.ai</strong></a>, I ship scalable AI products that turn data into value.
+    <strong>AI Engineer</strong> &middot; <strong>NLP</strong> & <strong>Generative AI</strong><br>
+    I design, fine-tune, and deploy LLMs (Llama&nbsp;3.1&nbsp;8B, GPT-4, Mistral) and build production-grade <strong>RAG systems</strong> and reliable ML pipelines.<br>
+    At <a href="https://xflowresearch.com" target="_blank" rel="noopener"><strong>Bluescarf.ai</strong></a>, I deliver scalable AI products with measurable impact.
   `,
-
   quickFacts: [
     { label: "Location", value: "Karachi, Sindh, Pakistan" },
     { label: "Phone", value: "+92-311-0351773" },
@@ -108,12 +107,12 @@ window.SITE_CONFIG = {
       links: [{ label: "GitHub", url: "https://github.com/Ai-Engineer079/Automated-Chest-X-Ray-and-Report-Generation.git" }]
     },
     {
-      name: "Prompt Optimization Engine",
+      name: "OpenAI Basics Financial Data Extraction Tool",
       description:
-        "Applies prompt engineering, LangChain, and GPT-4 to optimize AI responses against task criteria.",
-      image: "assets/images/project-2.svg",
-      tags: ["LangChain", "GPT-4", "Prompt Engineering"],
-      links: [{ label: "GitHub", url: "#" }]
+        "Applies prompt engineering, GPT-4 to optimize AI responses against task criteria.",
+      image: "assets/images/project 2.jpg",
+      tags: [ "GPT-4", "Prompt Engineering"],
+      links: [{ label: "GitHub", url: "https://github.com/Ai-Engineer079/GenAi_Project/tree/c10142a5a1a848b984b391037834ec45bf374c0e/openai_basics_financial_data_extraction_tool" }]
     },
     {
       name: "AI E-commerce Chatbot",
@@ -209,47 +208,25 @@ window.SITE_CONFIG = {
 
   skills: [
     "Python",
-    "Supervised Learning",
-    "Unsupervised Learning",
-    "Classification",
-    "Regression",
-    "Clustering",
-    "Anomaly Detection",
-    "CNNs",
-    "RNNs",
-    "LSTMs",
-    "BERT",
-    "GPT-3.5/4",
-    "Gemini",
-    "Word2Vec",
-    "GPT-NER",
     "RAG",
     "LangChain",
     "Pinecone",
     "Chroma",
     "FAISS",
-    "Weaviate",
-    "Milvus",
     "AWS",
     "Azure",
     "Docker",
     "CI/CD",
-    "Databricks",
-    "MLflow",
     "PyTorch",
     "TensorFlow",
     "Flask",
     "Streamlit",
     "Gradio",
-    "Spark",
-    "PySpark",
     "SQL",
     "MySQL",
     "PostgreSQL",
     "Git",
     "GitHub",
-    "VS Code",
-    "Jupyter",
     "Google Colab",
     "Hugging Face"
   ]
@@ -259,3 +236,4 @@ window.SITE_CONFIG = {
 if (typeof module !== 'undefined') {
   module.exports = window.SITE_CONFIG;
 }
+

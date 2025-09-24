@@ -92,7 +92,23 @@
   const year = $('#year');
   if (year) year.textContent = new Date().getFullYear();
   const resumeLink = $('#resumeLink');
-  if (resumeLink) resumeLink.href = C.resumeUrl || '#';
+  if (resumeLink) {
+    resumeLink.href = C.resumeUrl || '#';
+    if (C.resumeUrl && /\.pdf(\?|#|$)/i.test(C.resumeUrl)) {
+      resumeLink.setAttribute('download', 'Abdul_Wajid_Resume.pdf');
+      resumeLink.setAttribute('title', 'Download Resume');
+      resumeLink.removeAttribute('target');
+    }
+  }
+  const resumeCta = $('#resumeCta');
+  if (resumeCta) {
+    resumeCta.href = C.resumeUrl || '#';
+    if (C.resumeUrl && /\.pdf(\?|#|$)/i.test(C.resumeUrl)) {
+      resumeCta.setAttribute('download', 'Abdul_Wajid_Resume.pdf');
+    } else {
+      resumeCta.removeAttribute('download');
+    }
+  }
 
   // About + quick facts
   const aboutText = $('#aboutText');
@@ -112,6 +128,7 @@
     qf.innerHTML = '';
     C.quickFacts.forEach(({ label, value }) => {
       const li = document.createElement('li');
+      li.className = 'fade-in';
       li.innerHTML = `<span>${label}</span><strong>${value}</strong>`;
       qf.appendChild(li);
     });

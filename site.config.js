@@ -115,12 +115,12 @@
       links: [{ label: "GitHub", url: "https://github.com/Ai-Engineer079/GenAi_Project/tree/c10142a5a1a848b984b391037834ec45bf374c0e/openai_basics_financial_data_extraction_tool" }]
     },
     {
-      name: "AI E-commerce Chatbot",
+      name: "Build Labeled DataSet ",
       description:
-        "Shopping assistant with RAG for product Q&A and recommendations using LangChain + GPT-4.",
-      image: "assets/images/project-3.svg",
-      tags: ["RAG", "LangChain", "GPT-4", "E-commerce"],
-      links: [{ label: "GitHub", url: "#" }]
+        "Web scraping and data preprocessing to create a labeled dataset for NLP tasks.",
+      image: "assets/images/project 3.png",
+      tags: ["WebScrape", "Data Preprocess", "Cleaning"],
+      links: [{ label: "Hugging Face", url: "https://huggingface.co/ambile-official" }]
     },
     {
       name: "Sindhi Support Chatbot (RAG)",

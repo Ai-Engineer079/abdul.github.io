@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
@@ -12,6 +12,7 @@
     <title>Abdul Wajid - AI Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300..800&family=Outfit:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -40,7 +41,7 @@
     <!-- Minimal left rail for theme + resume -->
     <div class="side-rail" aria-label="Quick actions">
       <button id="themeToggle" class="rail-btn" aria-label="Toggle theme" title="Toggle theme">
-        <span class="rail-icon" id="themeIcon">☾</span>
+        <span class="rail-icon" id="themeIcon">â˜¾</span>
       </button>
       <a id="resumeLink" class="rail-link" href="#" target="_blank" rel="noopener" title="View Resume">Resume</a>
     </div>
@@ -69,7 +70,7 @@
             <span class="orb orb-2"></span>
             <span class="orb orb-3"></span>
           </div>
-          <img src="assets/images/avatar.svg" alt="Avatar" class="avatar float" />
+          <img src="assets/images/avatar.svg" alt="Avatar" class="avatar float" loading="lazy" decoding="async" fetchpriority="low" />
         </div>
       </section>
 
@@ -160,3 +161,5 @@
     <script src="main.js"></script>
   </body>
   </html>
+
+

@@ -45,19 +45,7 @@
     return `<span class="icon-img ${extraClass}" data-icon="${slug}" data-label="${name}" aria-hidden="true"></span>`;
   };
 
-  // Load and colorize SVG icons
-  const ICON_META_URL = 'https://cdn.jsdelivr.net/npm/simple-icons@latest/_data/simple-icons.json';
-  let ICON_HEX = null;
-  const iconHex = async (slug) => {
-    if (ICON_HEX) return ICON_HEX[slug];
-    try {
-      const res = await fetch(ICON_META_URL, { cache: 'force-cache' });
-      const data = await res.json();
-      ICON_HEX = {};
-      (data.icons || []).forEach(i => { ICON_HEX[i.slug] = `#${i.hex}`; });
-      return ICON_HEX[slug];
-    } catch { return undefined; }
-  };
+  // Load SVG icons quickly without extra metadata fetches
   const SVG_CACHE = new Map();
   const loadIconInto = async (el) => {
     const slug = el?.dataset?.icon; if (!slug || el.dataset.loaded) return;
@@ -68,17 +56,32 @@
         svg = await res.text();
         SVG_CACHE.set(slug, svg);
       }
-      const color = (await iconHex(slug)) || (getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#fff');
       el.innerHTML = svg;
-      el.style.fill = color;
       const svgEl = el.querySelector('svg');
-      if (svgEl) { svgEl.setAttribute('aria-label', el.dataset.label || slug); svgEl.setAttribute('focusable','false'); }
+      if (svgEl) {
+        svgEl.setAttribute('aria-label', el.dataset.label || slug);
+        svgEl.setAttribute('focusable','false');
+        svgEl.setAttribute('fill','currentColor');
+      }
       el.dataset.loaded = '1';
     } catch {}
   };
+  // Lazy-load icons when visible
+  let iconObserver = null;
+  if ('IntersectionObserver' in window) {
+    iconObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { iconObserver.unobserve(e.target); loadIconInto(e.target); } });
+    }, { rootMargin: '200px 0px' });
+  }
   const loadAllIcons = () => {
     const nodes = $$('.icon-img[data-icon]:not([data-loaded])');
-    nodes.forEach(n => loadIconInto(n));
+    if (iconObserver) {
+      nodes.forEach(n => iconObserver.observe(n));
+    } else if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => nodes.forEach(n => loadIconInto(n)));
+    } else {
+      setTimeout(() => nodes.forEach(n => loadIconInto(n)), 0);
+    }
   };
 
   // Title, brand, footer
@@ -180,7 +183,7 @@
         <div class="timeline-card">
           <div class="timeline-card-head">
             <h3>${ed.degree || ''}</h3>
-            ${_eduLogo ? (_eduUrl ? `<a class="timeline-logo" href="${_eduUrl}" target="_blank" rel="noopener" title="${ed.institution || ''}"><img src="${_eduLogo}" alt="${ed.institution || ''} logo" loading="lazy" /></a>` : `<span class="timeline-logo" title="${ed.institution || ''}"><img src="${_eduLogo}" alt="${ed.institution || ''} logo" loading="lazy" /></span>`) : ''}
+            ${_eduLogo ? (_eduUrl ? `<a class="timeline-logo" href="${_eduUrl}" target="_blank" rel="noopener" title="${ed.institution || ''}"><img src="${_eduLogo}" alt="${ed.institution || ''} logo" loading="lazy" decoding="async" /></a>` : `<span class="timeline-logo" title="${ed.institution || ''}"><img src="${_eduLogo}" alt="${ed.institution || ''} logo" loading="lazy" decoding="async" /></span>`) : ''}
           </div>
           <p>${ed.institution || ''}</p>
         </div>`;
@@ -202,7 +205,7 @@
         <div class="timeline-card">
           <div class="timeline-card-head">
             <h3>${e.title || ''} @ ${e.company || ''}</h3>
-            ${_expLogo ? (_expUrl ? `<a class="timeline-logo" href="${_expUrl}" target="_blank" rel="noopener" title="${e.company || ''}"><img src="${_expLogo}" alt="${e.company || ''} logo" loading="lazy" /></a>` : `<span class="timeline-logo" title="${e.company || ''}"><img src="${_expLogo}" alt="${e.company || ''} logo" loading="lazy" /></span>`) : ''}
+            ${_expLogo ? (_expUrl ? `<a class="timeline-logo" href="${_expUrl}" target="_blank" rel="noopener" title="${e.company || ''}"><img src="${_expLogo}" alt="${e.company || ''} logo" loading="lazy" decoding="async" /></a>` : `<span class="timeline-logo" title="${e.company || ''}"><img src="${_expLogo}" alt="${e.company || ''} logo" loading="lazy" decoding="async" /></span>`) : ''}
           </div>
           <p>${e.summary || ''}</p>
           ${Array.isArray(e.tech) ? `<div class="chips">${e.tech.map(t => `<span class="chip">${iconSpan(t, 'chip-icon')}${t}</span>`).join('')}</div>` : ''}
@@ -221,7 +224,7 @@
       card.className = 'project-card fade-in';
       card.innerHTML = `
         <div class="project-media">
-          <img src="${p.image}" alt="${p.name} preview" loading="lazy" />
+          <img src="${p.image}" alt="${p.name} preview" loading="lazy" decoding="async" />
         </div>
         <div class="project-body">
           <h3 class="project-title">${p.name}</h3>
@@ -261,7 +264,7 @@
       const imgSrc = c.image;
       const url = c.url || '#';
       const alt = c.alt || 'Certificate';
-      return `<div class="certs-item"><a href="${url}" target="_blank" rel="noopener"><img class="certs-img" src="${imgSrc}" alt="${alt}" loading="lazy"></a></div>`;
+      return `<div class="certs-item"><a href="${url}" target="_blank" rel="noopener"><img class="certs-img" src="${imgSrc}" alt="${alt}" loading="lazy" decoding="async"></a></div>`;
     }).join('');
   }
 
@@ -276,14 +279,14 @@
       <article class="rec-card">
         <div class="rec-head">
           <div class="rec-left">
-            <img class="rec-avatar" src="${r.avatar || 'assets/images/avatar.svg'}" alt="${r.name || 'Reviewer'}" loading="lazy" />
+            <img class="rec-avatar" src="${r.avatar || 'assets/images/avatar.svg'}" alt="${r.name || 'Reviewer'}" loading="lazy" decoding="async" />
             <div class="rec-meta">
               <strong>${r.name || 'Anonymous'}</strong>
               <span>${r.title || ''}${r.company ? ' @ ' + r.company : ''}</span>
               ${makeStars(r.rating)}
             </div>
           </div>
-          ${r.logo ? `<span class="rec-right-logo"><img src="${r.logo}" alt="${r.company || ''} logo" /></span>` : ''}
+          ${r.logo ? `<span class="rec-right-logo"><img src="${r.logo}" alt="${r.company || ''} logo" loading="lazy" decoding="async" /></span>` : ''}
         </div>
         <p class="rec-text">${r.text || 'Great collaboration and impressive problem solving.'}</p>
       </article>`).join('');
@@ -304,6 +307,22 @@
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) root.setAttribute('data-theme', savedTheme);
   updateThemeButton();
+  // Respect system theme if user didn't choose
+  if (!savedTheme && window.matchMedia) {
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    const applyScheme = (dark) => {
+      if (!localStorage.getItem('theme')) {
+        root.setAttribute('data-theme', dark ? 'dark' : 'light');
+        updateThemeButton();
+      }
+    };
+    applyScheme(mql.matches);
+    if (typeof mql.addEventListener === 'function') {
+      mql.addEventListener('change', (e) => applyScheme(e.matches));
+    } else if (typeof mql.addListener === 'function') {
+      mql.addListener((e) => applyScheme(e.matches));
+    }
+  }
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
       const current = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
@@ -316,6 +335,12 @@
     const isLight = root.getAttribute('data-theme') === 'light';
     // Minimal icon-only label: moon when light (can switch to dark), sun when dark (can switch to light)
     if (themeIcon) themeIcon.textContent = isLight ? '☾' : '☀';
+  }
+  // Override with improved icon + label
+  function updateThemeButton(){
+    const isLight = root.getAttribute('data-theme') === 'light';
+    if (themeIcon) themeIcon.textContent = isLight ? '🌙' : '☀';
+    if (themeToggle) themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
   }
 
   // Scroll spy + smooth scroll
@@ -352,6 +377,10 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { rootMargin: '0px 0px -10% 0px' });
   setTimeout(() => fadeEls().forEach(el => revealObs.observe(el)), 0);
+  // Header shrink on scroll
+  function onScroll(){ document.body.classList.toggle('scrolled', window.scrollY > 8); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
   // Text animations for headline and section titles
   function splitText(el){

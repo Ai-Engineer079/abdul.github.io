@@ -29,6 +29,8 @@ p,h1,h2,h3,h4,h5,h6{overflow-wrap:break-word}
   --dur-slow: 1.6s;
   --icon-filter: invert(100%) brightness(200%);
   --shimmer-dur: 1.4s;
+  --ring: 0 0 0 3px rgba(124,92,255,.35);
+  --space-section: 72px;
 }
 
 [data-theme="light"]{
@@ -46,11 +48,13 @@ body{
   font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
+::selection{background: rgba(124,92,255,.35); color:#fff}
+
 .container{max-width:var(--container);padding:0 24px;margin:0 auto}
 
 /* ===== Header ===== */
 .site-header{position:sticky;top:10px;z-index:50;padding:8px 0;background:linear-gradient(180deg, rgba(11,11,15,.75), rgba(11,11,15,.4) 60%, transparent 100%);backdrop-filter:saturate(140%) blur(6px)}
-.header-inner{display:flex;align-items:center;justify-content:space-between;height:56px;border:1px solid var(--border);border-radius:14px;background:rgba(17,17,25,.6);padding:0 12px}
+.header-inner{position:relative;display:flex;align-items:center;justify-content:space-between;height:56px;border:1px solid var(--border);border-radius:14px;background:rgba(17,17,25,.6);padding:0 12px}
 .brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:600;white-space:nowrap}
 .brand-text{font-size:14px;letter-spacing:.2px;opacity:.95}
 .brand-mark{color:var(--primary)}
@@ -90,7 +94,7 @@ body{
 
 /* Floating orbs */
 .orbs{position:absolute;inset:0;pointer-events:none}
-.orb{position:absolute;width:160px;height:160px;border-radius:50%;filter:blur(20px);opacity:.28}
+.orb{position:absolute;width:160px;height:160px;border-radius:50%;filter:blur(20px);opacity:.18}
 .orb-1{left:6%;top:10%;background:conic-gradient(from 0deg, var(--primary), var(--accent)) ;animation:drift var(--dur-slow) linear infinite}
 .orb-2{right:6%;top:20%;background:radial-gradient(circle at 30% 30%, var(--accent), transparent 60%);animation:drift2 calc(var(--dur-slow) * 1.2) linear infinite}
 .orb-3{left:20%;bottom:8%;background:radial-gradient(circle at 70% 70%, var(--primary), transparent 60%);animation:drift3 calc(var(--dur-slow) * 1.4) linear infinite}
@@ -99,7 +103,7 @@ body{
 .float{animation: floatY 5.5s ease-in-out infinite alternate}
 
 /* ===== Sections ===== */
-.section{padding:64px 0}
+.section{padding:var(--space-section) 0; scroll-margin-top:80px}
 .section-title{font-family:"Outfit", Manrope, system-ui, sans-serif;font-size:32px;margin-bottom:24px;transition:text-shadow var(--dur-fast) var(--ease)}
 .section-title:hover{text-shadow:0 0 14px rgba(124,92,255,.25)}
 
@@ -127,7 +131,7 @@ body{
 .chip .icon-img{width:14px;height:14px}
 
 /* ===== Projects ===== */
-.projects-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:16px}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:16px}
 .project-card{border:1px solid var(--border);border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.02)), var(--card);overflow:hidden;display:flex;flex-direction:column;transform-style:preserve-3d;will-change:transform;box-shadow:var(--shadow);transition:transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease)}
 .project-media{aspect-ratio:16/10;background:#0e0e14;border-bottom:1px solid var(--border);display:grid;place-items:center}
 .project-body{padding:14px 14px 12px}
@@ -246,6 +250,15 @@ body.menu-open{overflow:hidden}
   .cursor{display:none}
 }
 
+/* Focus-visible ring for keyboard users */
+.btn:focus-visible,
+.nav-link:focus-visible,
+.rail-btn:focus-visible,
+.rail-link:focus-visible,
+.timeline-logo:focus-visible,
+.social-link:focus-visible,
+.project-card a:focus-visible{outline:none;box-shadow:var(--ring)}
+
 /* Keyframes */
 @keyframes floatY{from{transform:translateY(0)}to{transform:translateY(-12px)}}
 @keyframes drift{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(12px,-10px) rotate(90deg)}100%{transform:translate(0,0) rotate(180deg)}}
@@ -268,3 +281,18 @@ body.menu-open{overflow:hidden}
   .rail-link{writing-mode:horizontal-tb;transform:none;padding:8px 10px}
   .rail-btn{width:36px;height:36px}
 }
+
+/* Project card polish */
+.project-media{position:relative;aspect-ratio:16/9;border-bottom:1px solid var(--border);overflow:hidden;background:var(--bg-elev)}
+.project-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.01);transition:transform var(--dur) var(--ease), filter var(--dur-fast) var(--ease)}
+.project-card{transition:transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease)}
+.project-card:hover .project-media img{transform:scale(1.05)}
+.project-card:hover{transform:translateY(-3px);border-color:var(--muted);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+
+/* Subtle header shrink on scroll */
+body.scrolled .header-inner{height:52px}
+/* Perf: icons use currentColor */
+.icon-img svg{fill:currentColor}
+
+/* Perf: reduce initial rendering for offscreen sections */
+.section{content-visibility:auto;contain-intrinsic-size:700px}

@@ -131,13 +131,20 @@
       links: [{ label: "GitHub", url: "https://github.com/Ai-Engineer079/SindhiChatbot-Source-Code.git" }]
     },
     {
-      name: "Personal Document Chat Model",
-      description:
-        "Local doc Q&A using LangChain + Chroma with Gemini as the LLM backend.",
-      image: "assets/images/project-5.svg",
-      tags: ["LangChain", "Chroma", "Gemini"],
-      links: [{ label: "GitHub", url: "#" }]
+      "name": "Ad Image Automation System",
+      "description": "Automated ad image generation using GPT-4, OpenRouter, and LangChain, designed to create customized ad descriptions and visual prompts for generating highly accurate ad visuals.",
+      "image": "assets/images/ads.png",
+      "tags": ["GPT-4", "LangChain", "Image Generation", "Automation", "OpenRouter"],
+      "links": [{ "label": "GitHub", "url": "https://github.com/Ai-Engineer079/Ad-Image-Automation-System.git" }]
     },
+    {
+      "name": "RAG Chatbot for Resume Consultation",
+      "description": "AI-powered chatbot designed for seamless customer interaction and free resume consultations using GPT-4 and LangChain, integrated with knowledge databases like Qdrant and embedding solutions.",
+      "image": "assets/images/rag.png",
+      "tags": ["LangChain", "GPT-4", "Qdrant", "AI Agent", "Customer Support"],
+      "links": [{ "label": "GitHub", "url": "https://github.com/Ai-Engineer079/RAG-Chatbot-for-Resume-Consultation.git" }]
+    },
+
     {
       name: "Text-to-Image Generation Web App",
       description:

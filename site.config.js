@@ -206,8 +206,8 @@
       name: "Aisha Khan",
       title: "Lead Engineer",
       company: "CloudScale",
-      avatar: "assets/images/avatar.svg",
-      logo: "assets/images/muetLogo.svg",
+      avatar: "assets/images/",
+      logo: "assets/images/",
       rating: 5,
       text:
         "Strong engineering rigor and pragmatic approach. Abdul is a go-to for production ML pipelines."

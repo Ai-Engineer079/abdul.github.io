@@ -29,6 +29,8 @@ p,h1,h2,h3,h4,h5,h6{overflow-wrap:break-word}
   --dur-slow: 1.6s;
   --icon-filter: invert(100%) brightness(200%);
   --shimmer-dur: 1.4s;
+  --marquee-certs-dur: 40s;
+  --marquee-recs-dur: 50s;
   --ring: 0 0 0 3px rgba(124,92,255,.35);
   --space-section: 72px;
 }
@@ -171,18 +173,18 @@ body{
 
 /* ===== Certificates Marquee ===== */
 .certs-marquee{overflow:hidden;border:1px solid var(--border);border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.02)), var(--card);padding:12px;box-shadow:var(--shadow)}
-.certs-track{display:flex;gap:16px;align-items:center;will-change:transform;animation:marquee-ltr 40s linear infinite}
+.certs-track{display:flex;gap:16px;align-items:center;will-change:transform;animation:marquee-ltr var(--marquee-certs-dur) linear infinite}
 .certs-marquee:hover .certs-track{animation-play-state:paused}
 .certs-item{flex:0 0 auto}
 .certs-item a{display:block}
 .certs-img{height:120px;width:auto;object-fit:contain;display:block;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);transition:transform var(--dur-fast) var(--ease)}
 .certs-img:hover{transform:translateY(-3px)}
 
-@keyframes marquee-ltr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@keyframes marquee-ltr{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ===== Recommendations Marquee ===== */
 .recs-marquee{overflow:hidden;border:1px solid var(--border);border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.02)), var(--card);padding:12px;box-shadow:var(--shadow)}
-.recs-track{display:flex;gap:16px;align-items:stretch;will-change:transform;animation:recs-ltr 50s linear infinite}
+.recs-track{display:flex;gap:16px;align-items:stretch;will-change:transform;animation:recs-ltr var(--marquee-recs-dur) linear infinite}
 .recs-marquee:hover .recs-track{animation-play-state:paused}
 .rec-card{min-width:320px;max-width:360px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.02)), var(--card);padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
 .rec-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -195,7 +197,7 @@ body{
 .rec-card:hover .rec-right-logo img{opacity:.9;filter:grayscale(80%) brightness(1) contrast(1)}
 .stars{color:#ffd54f;letter-spacing:1px;font-size:15px;filter:none;mix-blend-mode:normal;text-shadow:0 0 6px rgba(255,213,79,.35)}
 .rec-text{color:var(--text);opacity:.92}
-@keyframes recs-ltr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@keyframes recs-ltr{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* Custom cursor */
 .cursor{position:fixed;left:0;top:0;width:20px;height:20px;border:2px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1000;opacity:.85;transition:width var(--dur-fast), height var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast), transform .06s, box-shadow var(--dur-fast) var(--ease), backdrop-filter var(--dur-fast) var(--ease)}
@@ -239,6 +241,7 @@ input,textarea{cursor:text!important}
   .timeline-time{margin-bottom:6px}
   .projects-grid{grid-template-columns:1fr}
   .timeline-logo{width:56px;height:56px;padding:8px}
+  :root{ --marquee-certs-dur: 55s; --marquee-recs-dur: 65s; }
 }
 
 /* Lock scroll when mobile menu is open */

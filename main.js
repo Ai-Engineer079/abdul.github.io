@@ -301,6 +301,8 @@
           </a>
         </div>`;
     }).join('');
+    // Restart animation to account for new widths
+    restartMarquee(certTrack);
   }
 
   // Recommendations marquee
@@ -327,6 +329,7 @@
       </article>`).join('');
     const doubled = [...C.recommendations, ...C.recommendations];
     recTrack.innerHTML = cards(doubled);
+    restartMarquee(recTrack);
     recTrack.querySelectorAll('.stars').forEach(el => {
       const c = Math.max(0, Math.min(5, Number(el.dataset.rating || 0)));
       el.innerHTML = '&#9733;'.repeat(c) + '&#9734;'.repeat(5 - c);
@@ -346,6 +349,15 @@
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) root.setAttribute('data-theme', savedTheme);
   updateThemeButton();
+  // Helper: restart marquee animations (certs/recs) on resize or content changes
+  function restartMarquee(track){
+    if (!track) return;
+    track.style.animation = 'none';
+    track.style.transform = 'translateX(0)';
+    // Force reflow
+    void track.offsetHeight;
+    track.style.animation = '';
+  }
   // Respect system theme if user didn't choose
   if (!savedTheme && window.matchMedia) {
     const mql = window.matchMedia('(prefers-color-scheme: dark)');
@@ -414,6 +426,15 @@
   function onScroll(){ document.body.classList.toggle('scrolled', window.scrollY > 8); }
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
+  // Restart marquees on resize to prevent blank/offset tracks after layout changes
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      restartMarquee(document.getElementById('certificatesTrack'));
+      restartMarquee(document.getElementById('recsTrack'));
+    }, 150);
+  });
 
   // Text animations for headline and section titles
   function splitText(el){

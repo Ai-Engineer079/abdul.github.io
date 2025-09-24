@@ -193,7 +193,7 @@
         <div class="timeline-card">
           <div class="timeline-card-head">
             <h3>${ed.degree || ''}</h3>
-            ${_eduLogo ? (_eduUrl ? `<a class="timeline-logo" href="${_eduUrl}" target="_blank" rel="noopener" title="${ed.institution || ''}"><img src="${_eduLogo}" alt="${ed.institution || ''} logo" loading="lazy" decoding="async" /></a>` : `<span class="timeline-logo" title="${ed.institution || ''}"><img src="${_eduLogo}" alt="${ed.institution || ''} logo" loading="lazy" decoding="async" /></span>`) : ''}
+            ${_eduLogo ? (_eduUrl ? `<a class="timeline-logo" href="${_eduUrl}" target="_blank" rel="noopener" title="${ed.institution || ''}"><img src="${_eduLogo}" alt="${ed.institution || ''} logo" loading="lazy" decoding="async" width="72" height="72" /></a>` : `<span class="timeline-logo" title="${ed.institution || ''}"><img src="${_eduLogo}" alt="${ed.institution || ''} logo" loading="lazy" decoding="async" width="72" height="72" /></span>`) : ''}
           </div>
           <p>${ed.institution || ''}</p>
         </div>`;
@@ -215,7 +215,7 @@
         <div class="timeline-card">
           <div class="timeline-card-head">
             <h3>${e.title || ''} @ ${e.company || ''}</h3>
-            ${_expLogo ? (_expUrl ? `<a class="timeline-logo" href="${_expUrl}" target="_blank" rel="noopener" title="${e.company || ''}"><img src="${_expLogo}" alt="${e.company || ''} logo" loading="lazy" decoding="async" /></a>` : `<span class="timeline-logo" title="${e.company || ''}"><img src="${_expLogo}" alt="${e.company || ''} logo" loading="lazy" decoding="async" /></span>`) : ''}
+            ${_expLogo ? (_expUrl ? `<a class="timeline-logo" href="${_expUrl}" target="_blank" rel="noopener" title="${e.company || ''}"><img src="${_expLogo}" alt="${e.company || ''} logo" loading="lazy" decoding="async" width="72" height="72" /></a>` : `<span class="timeline-logo" title="${e.company || ''}"><img src="${_expLogo}" alt="${e.company || ''} logo" loading="lazy" decoding="async" width="72" height="72" /></span>`) : ''}
           </div>
           <p>${e.summary || ''}</p>
           ${Array.isArray(e.tech) ? `<div class="chips">${e.tech.map(t => `<span class="chip">${iconSpan(t, 'chip-icon')}${t}</span>`).join('')}</div>` : ''}
@@ -232,9 +232,19 @@
     C.projects.forEach((p) => {
       const card = document.createElement('article');
       card.className = 'project-card fade-in';
+      const imgAvif = (p.image || '').replace(/\.(png|jpe?g)$/i, '.avif');
+      const imgWebp = (p.image || '').replace(/\.(png|jpe?g)$/i, '.webp');
       card.innerHTML = `
         <div class="project-media">
-          <img src="${p.image}" alt="${p.name} preview" loading="lazy" decoding="async" />
+          ${/\.(png|jpe?g)$/i.test(p.image || '') ? `
+            <picture>
+              <source type="image/avif" srcset="${imgAvif}" />
+              <source type="image/webp" srcset="${imgWebp}" />
+              <img src="${p.image}" alt="${p.name} preview" loading="lazy" decoding="async" fetchpriority="low" width="1280" height="720" />
+            </picture>
+          ` : `
+            <img src="${p.image}" alt="${p.name} preview" loading="lazy" decoding="async" fetchpriority="low" />
+          `}
         </div>
         <div class="project-body">
           <h3 class="project-title">${p.name}</h3>
@@ -274,7 +284,22 @@
       const imgSrc = c.image;
       const url = c.url || '#';
       const alt = c.alt || 'Certificate';
-      return `<div class="certs-item"><a href="${url}" target="_blank" rel="noopener"><img class="certs-img" src="${imgSrc}" alt="${alt}" loading="lazy" decoding="async"></a></div>`;
+      const avif = (imgSrc || '').replace(/\.(png|jpe?g)$/i, '.avif');
+      const webp = (imgSrc || '').replace(/\.(png|jpe?g)$/i, '.webp');
+      return `
+        <div class="certs-item">
+          <a href="${url}" target="_blank" rel="noopener">
+            ${/\.(png|jpe?g)$/i.test(imgSrc || '') ? `
+              <picture>
+                <source type="image/avif" srcset="${avif}" />
+                <source type="image/webp" srcset="${webp}" />
+                <img class="certs-img" src="${imgSrc}" alt="${alt}" loading="lazy" decoding="async" fetchpriority="low" />
+              </picture>
+            ` : `
+              <img class="certs-img" src="${imgSrc}" alt="${alt}" loading="lazy" decoding="async" fetchpriority="low" />
+            `}
+          </a>
+        </div>`;
     }).join('');
   }
 
@@ -289,19 +314,23 @@
       <article class="rec-card">
         <div class="rec-head">
           <div class="rec-left">
-            <img class="rec-avatar" src="${r.avatar || 'assets/images/avatar.svg'}" alt="${r.name || 'Reviewer'}" loading="lazy" decoding="async" />
+            <img class="rec-avatar" src="${r.avatar || 'assets/images/avatar.svg'}" alt="${r.name || 'Reviewer'}" loading="lazy" decoding="async" width="44" height="44" />
             <div class="rec-meta">
               <strong>${r.name || 'Anonymous'}</strong>
               <span>${r.title || ''}${r.company ? ' @ ' + r.company : ''}</span>
-              ${makeStars(r.rating)}
+              <span class="stars" data-rating="${Math.max(0, Math.min(5, Math.round(r.rating || 0)))}"></span>
             </div>
           </div>
-          ${r.logo ? `<span class="rec-right-logo"><img src="${r.logo}" alt="${r.company || ''} logo" loading="lazy" decoding="async" /></span>` : ''}
+          ${r.logo ? `<span class="rec-right-logo"><img src="${r.logo}" alt="${r.company || ''} logo" loading="lazy" decoding="async" width="28" height="28" /></span>` : ''}
         </div>
         <p class="rec-text">${r.text || 'Great collaboration and impressive problem solving.'}</p>
       </article>`).join('');
     const doubled = [...C.recommendations, ...C.recommendations];
     recTrack.innerHTML = cards(doubled);
+    recTrack.querySelectorAll('.stars').forEach(el => {
+      const c = Math.max(0, Math.min(5, Number(el.dataset.rating || 0)));
+      el.innerHTML = '&#9733;'.repeat(c) + '&#9734;'.repeat(5 - c);
+    });
   }
 
   // Highlights (hero)

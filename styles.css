@@ -57,6 +57,7 @@ body{
 .nav{display:flex;gap:14px}
 .nav-link{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:10px;transition:color .2s, background .2s;font-size:14px}
 .nav-link:hover,.nav-link.active{color:var(--text);background:rgba(255,255,255,.04)}
+.nav-toggle{display:none;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--border);border-radius:10px;background:var(--bg-elev);color:var(--text);cursor:pointer}
 .header-actions{display:flex;gap:8px;align-items:center}
 .icon-btn{background:transparent;border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:10px;cursor:pointer;font-size:13px;opacity:.9}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:12px;text-decoration:none;font-weight:600;transition:transform .05s ease, background .2s, color .2s,border-color .2s;font-size:14px}
@@ -225,10 +226,19 @@ input,textarea{cursor:text!important}
 }
 @media (max-width: 640px){
   .header-inner{height:52px}
-  .nav{display:none}
+  .container{padding:0 16px}
+  .nav{display:none;position:absolute;right:16px;left:16px;top:calc(52px + 12px);flex-direction:column;gap:8px;background:var(--bg-elev);border:1px solid var(--border);border-radius:12px;padding:10px;box-shadow:var(--shadow);z-index:80}
+  .nav.open{display:flex}
+  .nav-link{padding:10px 12px;font-size:15px}
+  .nav-toggle{display:inline-flex}
+  .timeline-item{grid-template-columns:1fr}
+  .timeline-time{margin-bottom:6px}
   .projects-grid{grid-template-columns:1fr}
   .timeline-logo{width:56px;height:56px;padding:8px}
 }
+
+/* Lock scroll when mobile menu is open */
+body.menu-open{overflow:hidden}
 
 /* Motion safety */
 @media (prefers-reduced-motion: reduce){

@@ -321,6 +321,17 @@
   // Scroll spy + smooth scroll
   const sections = ['about','education','experience','projects','skills','certifications','certificates','recommendations','contact'].map(id => ({id, el: document.getElementById(id)}));
   const navLinks = $$('.nav-link');
+  const nav = document.getElementById('primaryNav');
+  const navToggle = document.getElementById('navToggle');
+  function closeMenu(){ if (!nav) return; nav.classList.remove('open'); if (navToggle) navToggle.setAttribute('aria-expanded','false'); document.body.classList.remove('menu-open'); if (navToggle) navToggle.innerHTML='&#9776;'; }
+  function openMenu(){ if (!nav) return; nav.classList.add('open'); if (navToggle) navToggle.setAttribute('aria-expanded','true'); document.body.classList.add('menu-open'); if (navToggle) navToggle.innerHTML='&times;'; }
+  if (navToggle && nav){
+    navToggle.addEventListener('click', () => { (nav.classList.contains('open') ? closeMenu : openMenu)(); });
+    // Close on link click (mobile)
+    navLinks.forEach(a => a.addEventListener('click', () => { if (window.matchMedia('(max-width: 640px)').matches) closeMenu(); }));
+    // Close if viewport grows
+    window.addEventListener('resize', () => { if (!window.matchMedia('(max-width: 640px)').matches) closeMenu(); });
+  }
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
